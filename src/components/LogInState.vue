@@ -45,6 +45,7 @@ computed: {
       return this.$store.state.favoriteRecipesDB;
   }
 },
+/*
 mounted() {
     
        const recipes = firebase
@@ -85,7 +86,7 @@ mounted() {
   }) //削除
   
   
-    },
+    },*/
     methods: {
          setNullToUid(){
            this.$store.dispatch("changeLogInState",null)  

@@ -88,7 +88,16 @@ import firebase from 'firebase';
 import {mapGetters} from 'vuex';
 
 export default {
-    computed: mapGetters(["currentUID","favoriteRecipesDB"]),
+    //computed: mapGetters(["currentUID","favoriteRecipesDB"]),
+    computed: {
+  currentUID(){
+      
+       return this.$store.getters.currentUID
+  } , 
+  favoriteRecipesDB(){
+      return this.$store.state.favoriteRecipesDB;
+  }
+},
     created(){
         firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -97,16 +106,57 @@ export default {
         console.log("loginornot",this.currentUID);
         this.currentState='LogInState'
         
+        
+        console.log("mounted",this.currentUID);
+       const recipes = firebase
+            .database()
+            .ref(`favorites/${this.currentUID}`)
+            
+             recipes.off('child_added');
+             recipes.off("child_removed")
+  //追加されたとき
+  recipes.on('child_added', (recipeSnapshot) => {
+      console.log("favorite is added!")
+      let info={key: recipeSnapshot.key,
+                          recipeInfo: recipeSnapshot.val()}
+     this.$store.dispatch("addToFavoriteRecipesDB",info)
+     
+     console.log(this.favoriteRecipesDB);
+     
+  });
+  
+    
+  recipes.on('child_removed',(recipeSnapshot)=>{
+      console.log("削除")
+      function getIndex(value, arr, prop) {
+    for(var i = 0; i < arr.length; i++) {
+        if(arr[i][prop] === value) {
+            return i;
+        }
+    }
+    return; //値が存在しなかったとき
+}
+
+    let index=getIndex(recipeSnapshot.key,this.favoriteRecipesDB,"key")
+    console.log("消えた配列の番号",index);
+     //this.favoriteRecipesDB.splice(index,1); 
+     this.$store.dispatch("removeRecipe",index)
+  }) //削除
+    
+        
+        
+        
     }
     else {
         console.log('状態：ログアウト');
         this.$store.dispatch("changeLogInState",null)
-        
     }
-        
-        })
+       
+      
+            
+    })
     },
-   
+
      methods:{
         toPicture(){
             this.$emit('toPicture')
