@@ -33,18 +33,11 @@
     
 <script>
 import firebase from 'firebase';
-
+import { mapGetters } from 'vuex'
 export default{
     
-computed: {
-  currentUID(){
-      
-       return this.$store.getters.currentUID
-  } , 
-  favoriteRecipesDB(){
-      return this.$store.state.favoriteRecipesDB;
-  }
-},
+computed: mapGetters(["currentUID","favoriteRecipesDB"]),
+  
 /*
 mounted() {
     

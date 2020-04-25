@@ -24,6 +24,7 @@
 <script>
 import firebase from 'firebase';
 import RecipeShow from "./RecipeShow.vue";
+import { mapGetters } from 'vuex'
 export default {
     data() {
             return {
@@ -31,15 +32,10 @@ export default {
                 input_material: [],
                 beforeInputMaterial:"",
                 finalRecipe:[],
-                favoriteRecipe: [],
             }
 
         },
-         computed: {
-      currentUID(){
-          return this.$store.getters.currentUID
-      }  
-    },
+   computed: mapGetters(["currentUID","favoriteRecipesDB"]),
          methods: {
             serchFirebase() {
                 this.items=[]
@@ -86,23 +82,20 @@ export default {
                             vm.finalRecipe=vm.items
                             //おきにいりにあるものとくらべてボタンと送信を切り替え
                             for(let i = 0; i < vm.finalRecipe.length; i++){
-                                for(let j=0; j<vm.favoriteRecipe.length; j++){
-                                    if(vm.favoriteRecipe[j].recipeInfo.recipeUrl===vm.finalRecipe[i].recipeUrl){
-                                        vm.finalRecipe[i].class="btn btn-success"
-                                        vm.finalRecipe[i].buttonWord="登録済み"
-                                        vm.finalRecipe[i].styleType="pointer-events: none"
+                                for(let j=0; j<vm.favoriteRecipesDB.length; j++){
+                                    //お気に入りと被った時
+                                    if(vm.favoriteRecipesDB[j].recipeInfo.recipeUrl===vm.finalRecipe[i].recipeUrl){
+                                        vm.finalRecipe[i].isFavorite=true;
                                         break;
                                     }
-                                    if(j===vm.favoriteRecipe.length-1){
-                                        vm.finalRecipe[i].class="btn btn-primary"
-                                        vm.finalRecipe[i].buttonWord="登録"
-                                        vm.finalRecipe[i].styleType=""
+                                    if(j===vm.favoriteRecipesDB.length-1){
+                                        vm.finalRecipe[i].isFavorite=false
                                         break;
                                     }
                                     
                                 }//j
                             }
-                            console.log(vm.finalRecipe);
+                            
                         }//else
                     })
                 },
@@ -127,23 +120,23 @@ export default {
                 }
             } //ここまでi
         },
+        changeIsFavorite(url){
+         console.log("発火成功",url)
+         
+         for(let i=0; i<this.finalRecipe.length; i++){
+          if(this.finalRecipe[i].recipeUrl===url){
+           this.finalRecipe[i].isFavorite=false;
+           break;
+      }
+      
+      }   
+        },
+        
     },
-    /*
-    created(){
-      console.log("created")
-       const recipes = firebase
-            .database()
-            .ref(`favorites/${this.currentUID}`)
-            
-             recipes.off('child_added');
-              
-  //追加されたとき
-  recipes.once('child_added', (recipeSnapshot) => {
-      this.favoriteRecipe.push({key: recipeSnapshot.key,
-                            recipeInfo: recipeSnapshot.val()})
-     
-     console.log(this.favoriteRecipe);
-  });  
+   created(){
+       
+       this.$eventHub.$on("changeIsFavorite", this.changeIsFavorite)
+   },
   /* これをするとお気に入りページのchild?removedが動かない
   recipes.on('child_removed',(recipeSnapshot)=>{
       console.log("removedがvoiceに反映された")

@@ -2,9 +2,10 @@ import Vue from 'vue';
 import App from './App.vue';
 import firebase from 'firebase';
 import store from "./store"
+import EventHub from './EventHub'
 
 Vue.config.productionTip = false
-
+Vue.use(EventHub);
 
 
 

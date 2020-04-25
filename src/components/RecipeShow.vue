@@ -1,7 +1,7 @@
 <template>
      <div>
      
-      <div v-if="recipes.length>0" class="alert alert-info center-block mt-5 mx-auto" role="alert">{{recipes.length}}件の新着情報があります</div>
+      <div v-show="recipes.length>0" class="alert alert-info center-block mt-5 mx-auto" role="alert">{{recipes.length}}件の新着情報があります</div>
    
    
     
@@ -22,8 +22,8 @@
           {{data.recipeTitle}}
            </div> 
           </a>
-           <button @click="addFavorite(data,$event)" :class="data.class" :style="data.styleType"> {{data.buttonWord}}</button>
-           
+           <button v-if="!data.isFavorite"  @click="addFavorite(data,$event)" class="btn btn-primary">お気に入り</button>
+           <button v-else  class="btn btn-success">お気に入り解除</button>
          </div>
          </div>
          </div>
@@ -55,7 +55,7 @@
                 recipeUrl: data.recipeUrl,
                 recipeImage: data.foodImageUrl,
                 recipeTitle: data.recipeTitle,
-                favorite: true,
+               
             };
             firebase
             .database()
@@ -63,9 +63,9 @@
             .push(favoriteRecipe)
             .then(()=>{
                 console.log("success");
-                event.target.className="btn btn-success"
-                event.target.innerHTML="登録済み"
-              　event.target.style="pointer-events: none"
+                console.log(data.isFavorite)
+               　data.isFavorite=true;
+               　console.log(data.isFavorite);
             })
             .catch(()=>{
                 console.log("fail")
