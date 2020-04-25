@@ -106,52 +106,7 @@ export default {
         
         })
     },
-       //DBからレシピをとってきてstateに代入
-mounted(){   
-       const recipes = firebase
-            .database()
-            .ref(`favorites/${this.currentUID}`)
-            
-             recipes.off('child_added');
-             recipes.off("child_removed")
-  //追加されたとき
-  recipes.on('child_added', (recipeSnapshot) => {
-      console.log("favorite is added!")
-      /*
-      this.favoriteRecipesDB.push({key: recipeSnapshot.key,
-                            recipeInfo: recipeSnapshot.val()})
-                            */
-                           let favoriteInfo={key: recipeSnapshot.key,
-                                               recipeInfo: recipeSnapshot.val()}
-     this.$store.dispatch("addToFavoriteRecipesDB",favoriteInfo);
-     
-     console.log(this.favoriteRecipesDB);
-     
-  });
-  
-    
-  recipes.on('child_removed',(recipeSnapshot)=>{
-      console.log("削除")
-      function getIndex(value, arr, prop) {
-    for(var i = 0; i < arr.length; i++) {
-        if(arr[i][prop] === value) {
-            return i;
-        }
-    }
-    return; //値が存在しなかったとき
-}
-
-    let index=getIndex(recipeSnapshot.key,this.favoriteRecipesDB,"key")
-    console.log("消えた配列の番号",index);
-    
-//     this.favoriteRecipesDB.splice(index,1); 
-     this.$store.dispatch("removeRecipe",index);
-  }) //削除
-  
-  
-
-    
-    },
+   
      methods:{
         toPicture(){
             this.$emit('toPicture')

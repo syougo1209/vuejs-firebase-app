@@ -33,16 +33,66 @@
     
 <script>
 import firebase from 'firebase';
-import {mapGetters} from 'vuex';
+
 export default{
+    
+computed: {
+  currentUID(){
+      
+       return this.$store.getters.currentUID
+  } , 
+  favoriteRecipesDB(){
+      return this.$store.state.favoriteRecipesDB;
+  }
+},
+mounted() {
+    
+       const recipes = firebase
+            .database()
+            .ref(`favorites/${this.currentUID}`)
+            
+             recipes.off('child_added');
+             recipes.off("child_removed")
+  //追加されたとき
+  recipes.on('child_added', (recipeSnapshot) => {
+      console.log("favorite is added!")
+    //  this.favoriteRecipesDB.push({key: recipeSnapshot.key,
+      //                      recipeInfo: recipeSnapshot.val()})
+      let info={key: recipeSnapshot.key,
+                          recipeInfo: recipeSnapshot.val()}
+     this.$store.dispatch("addToFavoriteRecipesDB",info)
      
-computed: mapGetters(["currentUID","favoriteRecipesDB"]),
+     console.log(this.favoriteRecipesDB);
+     
+  });
+  
+    
+  recipes.on('child_removed',(recipeSnapshot)=>{
+      console.log("削除")
+      function getIndex(value, arr, prop) {
+    for(var i = 0; i < arr.length; i++) {
+        if(arr[i][prop] === value) {
+            return i;
+        }
+    }
+    return; //値が存在しなかったとき
+}
+
+    let index=getIndex(recipeSnapshot.key,this.favoriteRecipesDB,"key")
+    console.log("消えた配列の番号",index);
+     //this.favoriteRecipesDB.splice(index,1); 
+     this.$store.dispatch("removeRecipe",index)
+  }) //削除
+  
+  
+    },
     methods: {
          setNullToUid(){
            this.$store.dispatch("changeLogInState",null)  
          },
          remove(data){
-          
+             console.log(data)
+          console.log("remove")
             firebase
             .database()
             .ref(`favorites/${this.currentUID}/${data.key}`)
@@ -75,45 +125,8 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
 
         }
     },
-    /*
-    mounted() {
     
-       const recipes = firebase
-            .database()
-            .ref(`favorites/${this.currentUID}`)
-            
-             recipes.off('child_added');
-             recipes.off("child_removed")
-  //追加されたとき
-  recipes.on('child_added', (recipeSnapshot) => {
-      console.log("favorite is added!")
-      this.recipeData.push({key: recipeSnapshot.key,
-                            recipeInfo: recipeSnapshot.val()})
-     
-     
-     console.log(this.recipeData);
-     
-  });
-  
-    
-  recipes.on('child_removed',(recipeSnapshot)=>{
-      console.log("削除")
-      function getIndex(value, arr, prop) {
-    for(var i = 0; i < arr.length; i++) {
-        if(arr[i][prop] === value) {
-            return i;
-        }
-    }
-    return; //値が存在しなかったとき
-}
-
-    let index=getIndex(recipeSnapshot.key,this.recipeData,"key")
-    console.log("消えた配列の番号",index);
-     this.recipeData.splice(index,1); 
-  }) //削除
-  
-  
-    },*/
+   
 }
 </script>
 

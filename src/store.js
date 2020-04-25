@@ -21,19 +21,19 @@ export default new Vuex.Store({
         },
         removeRecipe(state,index){
             state.favoriteRecipesDB.splice(index,1);
-        }
+     }
         
     },
     actions: {
         changeLogInState({commit},uid) {
             commit("changeLogInState",uid);
         },
-        addToFavoriteRecipesDB({commit},recipeInfo){
-            commit("addToFavoriteRecipesDB",recipeInfo);
+       addToFavoriteRecipesDB({commit},recipeInfo){
+           commit("addToFavoriteRecipesDB",recipeInfo);
         },
         removeRecipe({commit},index){
             commit("removeRecipe",index);
-        }
+   }
     }
     
 })

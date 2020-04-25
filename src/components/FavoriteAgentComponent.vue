@@ -22,11 +22,6 @@ export default {
             currentState:"",
         }
     },
-    computed: {
-      currentUID(){
-          return this.$store.getters.currentUID
-      }  
-    },
     created(){
       if(this.currentUID===null){
           this.currentState=LogOutState; 
