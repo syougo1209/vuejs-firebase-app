@@ -1,0 +1,149 @@
+<template>
+     <div>
+     
+      <div v-if="recipes.length>0" class="alert alert-info center-block mt-5 mx-auto" role="alert">{{recipes.length}}件の新着情報があります</div>
+   
+   
+    
+      <div class="wi container mt-5">
+      
+     <div class="recipe row justify-content-start">
+  
+  <div class="item col-sm-4 col-md-3" v-for="data in recipes" :key="data.recipeUrl">
+         
+         <div class="notouch">
+         <div class="box">
+         <div class="image">
+           <img class="book-item__image img-fluid" alt="" v-bind:src="data.foodImageUrl">
+         </div>
+         <div class="detail">
+        <a class="recipeName" href="data.recipeUrl">
+           <div class="title">
+          {{data.recipeTitle}}
+           </div> 
+          </a>
+           <button @click="addFavorite(data,$event)" :class="data.class" :style="data.styleType"> {{data.buttonWord}}</button>
+           
+         </div>
+         </div>
+         </div>
+         </div>
+         
+         </div>
+       </div>
+       </div>
+    
+</template>
+
+<script>
+    import firebase from 'firebase';
+   export default{
+       props:{
+        recipes: Array,
+    },
+    computed: {
+      currentUID(){
+          return this.$store.getters.currentUID
+      }  
+    },
+ 
+     methods:{
+        addFavorite(data,event){
+          
+            console.log(event.target)
+            const favoriteRecipe={
+                recipeUrl: data.recipeUrl,
+                recipeImage: data.foodImageUrl,
+                recipeTitle: data.recipeTitle,
+                favorite: true,
+            };
+            firebase
+            .database()
+            .ref(`favorites/${this.currentUID}`)
+            .push(favoriteRecipe)
+            .then(()=>{
+                console.log("success");
+                event.target.className="btn btn-success"
+                event.target.innerHTML="登録済み"
+              　event.target.style="pointer-events: none"
+            })
+            .catch(()=>{
+                console.log("fail")
+            })
+        },
+        
+    }
+       
+   } 
+</script>
+
+<style scoped>
+
+    .recipeName　:hover {
+    transform: scale(0.8);
+    transition: .2s;
+}
+.alert {
+      text-align:center;
+      width:50%;
+}
+
+.recipe-items{
+ margin-top:150px;
+ 
+}
+
+.recipe-item{
+ height:270px;
+ text-align:center;
+  margin: 0 auto;
+  justify-content:space-between;
+}
+
+.item{
+     
+     padding:20px;
+   
+}
+
+.box{
+      border:1px solid #dcdcdc;
+      background-color:#f5f5f5;
+     
+      border-radius:20px;
+}
+
+
+.image{
+ height:200px;
+ vertical-align:middle;
+ border-bottom:1px solid #dcdcdc;
+ text-align: center;
+ 
+}
+.detail{
+ height:70px;
+ font-size: 14px;
+}
+
+.recipe{
+ margin-right:auto;
+ margin-left:auto;
+ 
+}
+.faborite{
+ 
+ height:30px;
+}
+
+.book-item__image{
+    margin-top:15px; 
+    width:85%;
+    height:85%;
+}
+.detail{
+ padding:10px;
+ 
+}
+    
+</style>
