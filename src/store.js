@@ -31,7 +31,7 @@ export default new Vuex.Store({
          state.finalRecipe=content;
      },
      changeIsfavorite(state,{boolean,index}){
-    　state.finalRecipe[index].isFavorite=boolean
+    　Vue.set(state.finalRecipe[index], "isFavorite", boolean)
     },
 },
     actions: {
