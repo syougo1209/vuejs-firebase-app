@@ -88,7 +88,7 @@
     import { mapGetters } from 'vuex';
 
     export default {
-        computed: mapGetters(["currentUID","favoriteRecipesDB"]),
+        computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
         created() {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
@@ -106,6 +106,8 @@
                     recipes.off('child_added');
                     recipes.off("child_removed")
                     //追加されたとき
+                     
+                        
                     recipes.on('child_added', (recipeSnapshot) => {
                         console.log("favorite is added!")
                         let info = {
@@ -113,19 +115,8 @@
                             recipeInfo: recipeSnapshot.val()
                         }
                         this.$store.dispatch("addToFavoriteRecipesDB", info)
-
-                        console.log(this.favoriteRecipesDB);
-
-                    });
-
-
-                    recipes.on('child_removed', (recipeSnapshot) => {
-                        console.log("削除")
                         
-                        console.log(recipeSnapshot.val().recipeUrl)
-                        //お気に入り状態を変えるイベントを発火
-                        this.$eventHub.$emit("changeIsFavorite",recipeSnapshot.val().recipeUrl)
-　　　　　
+                         let url=recipeSnapshot.val().recipeUrl
                         function getIndex(value, arr, prop) {
                             for (var i = 0; i < arr.length; i++) {
                                 if (arr[i][prop] === value) {
@@ -134,7 +125,45 @@
                             }
                             return; //値が存在しなかったとき
                         }
+                        
+                        if(this.finalRecipe){
+                    
+                        let index = getIndex(url, this.finalRecipe, "recipeUrl")   
+                     
+                    
+                this.$store.dispatch("changeIsfavorite",{boolean: true,index: index})
+                console.log("changeis Isfavorite",this.finalRecipe)
+                }
+                        
+                        
 
+                    });
+
+
+                    recipes.on('child_removed', (recipeSnapshot) => {
+                        console.log("削除")
+                        function getIndex(value, arr, prop) {
+                            for (var i = 0; i < arr.length; i++) {
+                                if (arr[i][prop] === value) {
+                                    return i;
+                                }
+                            }
+                            return; //値が存在しなかったとき
+                        }
+                        
+                        console.log(recipeSnapshot.val().recipeUrl)
+                      
+　　　                  let url=recipeSnapshot.val().recipeUrl
+　　　                  
+  　　　　　if(this.finalRecipe){
+    
+                        let index = getIndex(url, this.finalRecipe, "recipeUrl")   
+                    
+                    
+                this.$store.dispatch("changeIsfavorite",{boolean: false,index: index})
+                console.log("changeis favoir",this.finalRecipe)
+                }
+                
                         let index = getIndex(recipeSnapshot.key, this.favoriteRecipesDB, "key")
                         console.log("消えた配列の番号", index);
                        

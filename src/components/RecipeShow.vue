@@ -1,7 +1,7 @@
 <template>
      <div>
      
-      <div v-show="recipes.length>0" class="alert alert-info center-block mt-5 mx-auto" role="alert">{{recipes.length}}件の新着情報があります</div>
+      <div v-show="finalRecipe.length>0" class="alert alert-info center-block mt-5 mx-auto" role="alert">{{finalRecipe.length}}件の新着情報があります</div>
    
    
     
@@ -9,7 +9,7 @@
       
      <div class="recipe row justify-content-start">
   
-  <div class="item col-sm-4 col-md-3" v-for="data in recipes" :key="data.recipeUrl">
+  <div class="item col-sm-4 col-md-3" v-for="data in finalRecipe" :key="data.recipeUrl">
          
          <div class="notouch">
          <div class="box">
@@ -22,10 +22,12 @@
           {{data.recipeTitle}}
            </div> 
           </a>
+           
            <button v-if="data.isFavorite" class="btn btn-success">お気に入り</button>
            
-           <button v-else  class="btn btn-primary"　@click="addFavorite(data,$event)">お気に入り登録</button>
-         </div>
+           <button v-else  class="btn btn-primary"　@click="addFavorite(data)">お気に入り登録</button>
+           
+         
          </div>
          </div>
          </div>
@@ -33,25 +35,21 @@
          </div>
        </div>
        </div>
+       </div>
+       </div>
     
 </template>
 
 <script>
     import firebase from 'firebase';
+    import { mapGetters } from 'vuex'
    export default{
-       props:{
-        recipes: Array,
-    },
-    computed: {
-      currentUID(){
-          return this.$store.getters.currentUID
-      }  
-    },
- 
+    computed: mapGetters(["currentUID","finalRecipe"]),
+   
      methods:{
-        addFavorite(data,event){
+        addFavorite(data){
           
-            console.log(event.target)
+           
             const favoriteRecipe={
                 recipeUrl: data.recipeUrl,
                 recipeImage: data.foodImageUrl,
@@ -64,9 +62,7 @@
             .push(favoriteRecipe)
             .then(()=>{
                 console.log("success");
-                console.log(data.isFavorite)
-               　this.$emit("isFavoriteToTrue",data.recipeUrl)
-               　console.log(data.isFavorite);
+               
             })
             .catch(()=>{
                 console.log("fail")

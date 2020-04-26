@@ -8,7 +8,7 @@
     <button @click="serchFirebase" class="btn btn-primary ml-4">検索</button>
     </section>
     
-    <RecipeShow :recipes=" finalRecipe" @isFavoriteToTrue="favoriteToTrue"></RecipeShow>
+    <RecipeShow ></RecipeShow>
     <ul id="example">
   <li
     v-for="item in items"
@@ -31,12 +31,12 @@ export default {
                 items:[],
                 input_material: [],
                 beforeInputMaterial:"",
-                finalRecipe:[],
             }
 
         },
-   computed: mapGetters(["currentUID","favoriteRecipesDB"]),
+   computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
          methods: {
+             /*
              favoriteToTrue(url){
                  console.log(this.finalRecipe)
                  for(let i=0; i<this.finalRecipe.length; i++){
@@ -48,13 +48,14 @@ export default {
            console.log("更",this.finalRecipe[i])
            break;
       }
+      
                  }
       
       
-             },
+             },*/
             serchFirebase() {
                 this.items=[]
-                this.finalRecipe=[]
+                this.$store.dispatch("setToFinalRecipe",[])
                 this.input_material=[]
                 const vm=this;
                  this.input_material=this.beforeInputMaterial.split("、");
@@ -94,17 +95,18 @@ export default {
                                 return b.hitcount - a.hitcount
                             })
                             console.log(vm.items)
-                            vm.finalRecipe=vm.items
+                             this.$store.dispatch("setToFinalRecipe",vm.items)
                             //おきにいりにあるものとくらべてボタンと送信を切り替え
                             for(let i = 0; i < vm.finalRecipe.length; i++){
                                 for(let j=0; j<vm.favoriteRecipesDB.length; j++){
                                     //お気に入りと被った時
                                     if(vm.favoriteRecipesDB[j].recipeInfo.recipeUrl===vm.finalRecipe[i].recipeUrl){
-                                        vm.finalRecipe[i].isFavorite=true;
+                                    
+                                         this.$store.dispatch("changeIsfavorite",{boolean: true,index: i})
                                         break;
                                     }
                                     if(j===vm.favoriteRecipesDB.length-1){
-                                        vm.finalRecipe[i].isFavorite=false
+                                    this.$store.dispatch("changeIsfavorite",{boolean: false,index: i})
                                         break;
                                     }
                                     
@@ -135,6 +137,8 @@ export default {
                 }
             } //ここまでi
         },
+         },
+        /*
         changeIsFavorite(url){
          console.log("発火成功",url)
          
@@ -147,27 +151,14 @@ export default {
       }
       
       }   
-        },
+        },*/
         
-    },
+    /*
    created(){
        
        this.$eventHub.$on("changeIsFavorite", this.changeIsFavorite)
    },
-  /* これをするとお気に入りページのchild?removedが動かない
-  recipes.on('child_removed',(recipeSnapshot)=>{
-      console.log("removedがvoiceに反映された")
-      for(let i=0; i<this.finalRecipe.length; i++){
-      if(this.finalRecipe[i].recipeUrl===recipeSnapshot.recipeUrl){
-           this.finalRecipe[i].class = "btn btn-primary"
-           this.finalRecipe[i].buttonWord = "登録"
-           this.finalRecipe[i].styleType = ""
-           break;
-      }
-      
-      }
-  });
-    },*/
+  */
     components:{
         RecipeShow,
     }
