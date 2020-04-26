@@ -123,6 +123,7 @@
                         console.log("削除")
                         
                         console.log(recipeSnapshot.val().recipeUrl)
+                        //お気に入り状態を変えるイベントを発火
                         this.$eventHub.$emit("changeIsFavorite",recipeSnapshot.val().recipeUrl)
 　　　　　
                         function getIndex(value, arr, prop) {

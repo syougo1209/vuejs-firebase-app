@@ -22,8 +22,9 @@
           {{data.recipeTitle}}
            </div> 
           </a>
-           <button v-if="!data.isFavorite"  @click="addFavorite(data,$event)" class="btn btn-primary">お気に入り</button>
-           <button v-else  class="btn btn-success">お気に入り解除</button>
+           <button v-if="data.isFavorite" class="btn btn-success">お気に入り</button>
+           
+           <button v-else  class="btn btn-primary"　@click="addFavorite(data,$event)">お気に入り登録</button>
          </div>
          </div>
          </div>
@@ -64,7 +65,7 @@
             .then(()=>{
                 console.log("success");
                 console.log(data.isFavorite)
-               　data.isFavorite=true;
+               　this.$emit("isFavoriteToTrue",data.recipeUrl)
                　console.log(data.isFavorite);
             })
             .catch(()=>{

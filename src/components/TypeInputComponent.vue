@@ -8,7 +8,7 @@
     <button @click="serchFirebase" class="btn btn-primary ml-4">検索</button>
     </section>
     
-    <RecipeShow :recipes=" finalRecipe"></RecipeShow>
+    <RecipeShow :recipes=" finalRecipe" @isFavoriteToTrue="favoriteToTrue"></RecipeShow>
     <ul id="example">
   <li
     v-for="item in items"
@@ -37,6 +37,21 @@ export default {
         },
    computed: mapGetters(["currentUID","favoriteRecipesDB"]),
          methods: {
+             favoriteToTrue(url){
+                 console.log(this.finalRecipe)
+                 for(let i=0; i<this.finalRecipe.length; i++){
+          if(this.finalRecipe[i].recipeUrl===url){
+              console.log(url)
+              console.log(this.finalRecipe[i].recipeUrl)//ok
+              console.log("あよ",this.finalRecipe[i])//もともとtrue
+           this.finalRecipe[i].isFavorite=true;
+           console.log("更",this.finalRecipe[i])
+           break;
+      }
+                 }
+      
+      
+             },
             serchFirebase() {
                 this.items=[]
                 this.finalRecipe=[]
@@ -95,7 +110,7 @@ export default {
                                     
                                 }//j
                             }
-                            
+                            console.log("お気に入り",vm.finalRecipe)
                         }//else
                     })
                 },
@@ -125,7 +140,9 @@ export default {
          
          for(let i=0; i<this.finalRecipe.length; i++){
           if(this.finalRecipe[i].recipeUrl===url){
+              console.log("あったよ",this.finalRecipe[i])
            this.finalRecipe[i].isFavorite=false;
+           console.log("変更",this.finalRecipe[i])
            break;
       }
       
