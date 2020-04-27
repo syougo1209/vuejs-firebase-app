@@ -1,11 +1,15 @@
 <template>
      <div>
-    <h2>音声</h2>
-
-    {{input_material}}
-    <button @click="voiceCapture" class="btn btn-primary">{{recognitionText}}</button>
-    <p>{{text}}</p>
+    <div class="alert alert-info center-block  mx-auto " role="alert">音声入力開始を押すと音声入力が始まります。<br>検索の結果は下の材料に表示されます</div>  
+    
+   <section class="voice-input col-xs-8 col-lg-5">
+       <div  class="voice-result ">
+           <p>入力中の材料: {{text}}</p>
+           <p>材料: {{expressInputmaterial}}</p>
+       </div>
+    <button @click="voiceCapture" class="btn btn-primary mr-2">{{recognitionText}}</button>
     <button @click="serchFirebase" class="btn btn-primary">レシピを表示</button>
+    </section>
     <RecipeShow ></RecipeShow>
     
     </div>
@@ -29,7 +33,12 @@ export default {
             }
 
         },
-        computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
+        computed:{ ...mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
+              expressInputmaterial(){
+                  return this.input_material.join(" ")
+              },
+            
+        },
           mounted()　{  
            　 this.recognition.continuous = true;
            　this.recognition.lang = 'ja-JP';
@@ -156,3 +165,22 @@ export default {
  
 }
 </script>
+
+<style scoped>
+    
+  .voice-input{
+      text-align:center;
+      border-radius: 10px;
+      background-color:white;
+      height:150px;
+      margin: 100px auto;
+  }  
+  .voice-result{
+      height:70%;
+  }
+   .alert {
+      text-align:center;
+      width:50%;
+      margin-top:100px;
+}
+</style>

@@ -1,10 +1,10 @@
 <template>
      <div>
-        
-   <h2 class="title">材料を検索してください</h2>
-   
+         
+     <div class="alert alert-info center-block  mx-auto " role="alert">材料名を複数検索したい場合は半角スペースを間に入れてください。<br>材料の一致順にレシピが表示されます</div>  
+     
    <div class="type-input input-group mt-4">
-  <input v-model="beforeInputMaterial"  type="text" class="form-control">
+  <input v-model="beforeInputMaterial"  type="text" class="form-control"　placeholder="材料名">
   <div class="input-group-append">
     <button @click="serchFirebase" type="button" class="btn btn-outline-secondary btn-primary">レシピを検索</button>
   </div>
@@ -114,27 +114,7 @@ export default {
             } //ここまでi
         },
          },
-        /*
-        changeIsFavorite(url){
-         console.log("発火成功",url)
-         
-         for(let i=0; i<this.finalRecipe.length; i++){
-          if(this.finalRecipe[i].recipeUrl===url){
-              console.log("あったよ",this.finalRecipe[i])
-           this.finalRecipe[i].isFavorite=false;
-           console.log("変更",this.finalRecipe[i])
-           break;
-      }
-      
-      }   
-        },*/
-        
-    /*
-   created(){
        
-       this.$eventHub.$on("changeIsFavorite", this.changeIsFavorite)
-   },
-  */
     components:{
         RecipeShow,
     }
@@ -148,12 +128,15 @@ export default {
         margin-top:100px;
     }
     .type-input{
-  
     text-align : center ;
     margin:30px auto;
     width: 50%;
     }
     
-    
+    .alert {
+      text-align:center;
+      width:50%;
+      margin-top:100px;
+}
     
 </style>
