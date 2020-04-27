@@ -6,7 +6,7 @@
     <button @click="voiceCapture" class="btn btn-primary">{{recognitionText}}</button>
     <p>{{text}}</p>
     <button @click="serchFirebase" class="btn btn-primary">レシピを表示</button>
-    <RecipeShow :recipes="finalRecipe"></RecipeShow>
+    <RecipeShow ></RecipeShow>
     
     </div>
      
@@ -15,6 +15,7 @@
 <script>
 import RecipeShow from "./RecipeShow.vue";
 import firebase from 'firebase';
+import { mapGetters } from 'vuex'
 
 export default {
     data() {
@@ -24,48 +25,11 @@ export default {
                      recognitionText: '音声入力開始',
                      recognition: new webkitSpeechRecognition(),
                      input_material: [],
-                     finalRecipe: [],
                      interimTranscript: "",
-                     favoriteRecipe:[],
             }
 
         },
-        computed: {
-      currentUID(){
-          return this.$store.getters.currentUID
-      }  
-    },
-        /*
-      created(){  
-             const recipe = firebase
-            .database()
-            .ref(`favorites/${this.currentUID}`)
-            
-             recipe.off('child_added');
-              
-  //追加されたとき 
-  recipe.once('child_added', (recipeSnapshot) => {
-      console.log("childaded")
-      this.favoriteRecipe.push({key: recipeSnapshot.key,
-                            recipeInfo: recipeSnapshot.val()})
-  })
-  
-  //お気に入り一覧からメニューが削除されたとき
-  recipe.on('child_removed',(recipeSnapshot)=>{
-      console.log("removedがvoiceに反映された")
-      for(let i=0; i<this.finalRecipe.length; i++){
-      if(this.finalRecipe[i].recipeUrl===recipeSnapshot.recipeUrl){
-           this.finalRecipe[i].class = "btn btn-primary"
-           this.finalRecipe[i].buttonWord = "登録"
-           this.finalRecipe[i].styleType = ""
-           break;
-      }
-      
-      }
-  });
-     
-     console.log(this.favoriteRecipe);
-}, */
+        computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
           mounted()　{  
            　 this.recognition.continuous = true;
            　this.recognition.lang = 'ja-JP';
@@ -98,8 +62,7 @@ export default {
               voiceCapture(){
                       this.input_material=[];
             　   　  　this.items=[];
-            　   　   this.finalRecipe=[];
-            　   　   
+            　   　  this.$store.dispatch("setToFinalRecipe",[])
             　   　   this.recognition.start();
                 },
             serchFirebase() {
@@ -142,24 +105,23 @@ export default {
                                 return b.hitcount - a.hitcount
                             })
                             console.log(vm.items)
-                            vm.finalRecipe=vm.items
+                           this.$store.dispatch("setToFinalRecipe",vm.items)
                             
                             for(let i = 0; i < vm.finalRecipe.length; i++){
-                                for(let j=0; j<vm.favoriteRecipe.length; j++){
-                                    if(vm.favoriteRecipe[j].recipeInfo.recipeUrl===vm.finalRecipe[i].recipeUrl){
-                                        vm.finalRecipe[i].class="btn btn-success"
-                                        vm.finalRecipe[i].buttonWord="登録済み"
-                                        vm.finalRecipe[i].styleType="pointer-events: none"
+                              for(let j=0; j<vm.favoriteRecipesDB.length; j++){
+                                    //お気に入りと被った時
+                                    if(vm.favoriteRecipesDB[j].recipeInfo.recipeUrl===vm.finalRecipe[i].recipeUrl){
+                                    
+                                         this.$store.dispatch("changeIsfavorite",{boolean: true,index: i})
                                         break;
                                     }
-                                    if(j===vm.favoriteRecipe.length-1){
-                                        vm.finalRecipe[i].class="btn btn-primary"
-                                        vm.finalRecipe[i].buttonWord="登録"
-                                        vm.finalRecipe[i].styleType=""
+                                    if(j===vm.favoriteRecipesDB.length-1){
+                                    this.$store.dispatch("changeIsfavorite",{boolean: false,index: i})
                                         break;
                                     }
                                     
                                 }//j
+                                
                             }
                             console.log(vm.finalRecipe);
                         }
