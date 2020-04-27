@@ -15,7 +15,7 @@ export default {
     computed: {
       currentUID(){
           return this.$store.getters.currentUID
-      }  
+      },
     },
  data(){
         return{
@@ -29,6 +29,12 @@ export default {
       else{
         this.currentState=LogInState;  
       }
+      this.$eventHub.$on('logOutFromParent', this.changeToLogOut)
+    },
+    methods:{
+      changeToLogOut(){
+        this.currentState=LogOutState  
+      },  
     },
     components: {
        LogInState,

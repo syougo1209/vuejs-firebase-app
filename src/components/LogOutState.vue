@@ -1,14 +1,12 @@
 <template>
     <div>
-   <h1>Firebase Test</h1>
-    <form>
+   <h1 >ログイン</h1>
+    <form class="login-form mt-4 col-sm-12 col-lg-10">
       MAIL：<input v-model="email" type="email" id="user-mail"><br>
       PASS：<input v-model="password" type="password" id="user-pass"><br>
-      <button  @click="logIn" type="button" id="login-button" class="btn btn-primary">ログイン</button>
-     
-
+      <button  @click="logIn" type="button" id="login-button" class="btn btn-success mt-4 mr-4">ログイン</button>
+      <button id="my-button" type="button" @click="toAddUser" class="btn btn-success mt-4">新規ユーザー登録</button>
     </form>
-    <button id="my-button" type="button" @click="toAddUser" >新規ユーザー登録</button><br>
     </div>
 </template>
 
@@ -66,3 +64,16 @@ export default{
     }
 }
 </script>
+
+<style scoped>
+h1{
+   text-align:center;
+   margin-top:150px;
+}
+    .login-form{
+        margin: 150px auto;
+        text-align:center;
+    }
+    
+    
+</style>

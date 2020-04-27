@@ -92,7 +92,8 @@
                 .then(() => {
                     // ログアウトに成功したときの処理
                     console.log('ログアウトしました');
-                    this.$emit("changeToLogOut")
+                    this.$emit("changeToLogOut");
+                    this.$eventHub.$emit('logOutFromParent');
                     this.setNullToUid
                     this.$store.dispatch("initaializeFinalRecipe")
                 })

@@ -1,6 +1,7 @@
 <template>
      <div>
-    <div v-show="favoriteRecipesDB.length>0" class="alert alert-info center-block  mx-auto " role="alert">{{favoriteRecipesDB.length}}件のお気に入りがあります</div>
+    <div v-if="favoriteRecipesDB.length>0" class="alert alert-info center-block  mx-auto " role="alert">{{favoriteRecipesDB.length}}件のお気に入りがあります</div>
+      <div v-else class="alert alert-info center-block  mx-auto " role="alert">気に入ったレシピをお気に入り登録しましょう</div>
       <div class="wi container mt-5">
       
      <div class="recipe row justify-content-start">
@@ -28,7 +29,7 @@
          </div>
          </div>
        </div>
-        <button   @click="logOut" class="btn btn-primary mt-5" type="button" id="logout-button" >ログアウト</button>
+        
        </div>
     
 </template>
@@ -60,26 +61,7 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
                 console.log("fail")
             })
         },
-         logOut() {
-             
-            firebase
-                .auth()
-                .signOut() // ログアウト実行
-                .then(() => {
-                    // ログアウトに成功したときの処理
-                    console.log('ログアウトしました');
-                    this.$emit("changeToLogOut")
-                    this.setNullToUid
-                    this.$store.dispatch("initaializeFinalRecipe")
-                })
-                .catch((error) => {
-                    // ログアウトに失敗したときの処理
-                    console.error('ログアウトエラー', error);
-                });
-                
-                
-
-        }
+         
     },
     
    
@@ -94,7 +76,7 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
 .alert {
       text-align:center;
       width:50%;
-      margin-top:60px;
+      margin-top:100px;
 }
 
 .recipe-items{
