@@ -27,8 +27,16 @@
             <li class="nav-item">
               <a class="nav-link" href="#kittens" @click="currentComponent='VoiceCaptureComponent'">音声で入力</a>
             </li>
+            <template v-if="logInState">
             <li class="nav-item">
               <a class="nav-link" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">お気に入り</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#gallery" >ログアウト</a>
+            </li>
+            </template>
+            <li v-else class="nav-item">
+              <a  class="nav-link" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">ログイン</a>
             </li>
           </ul>
         </div>
@@ -56,15 +64,17 @@
     export default{
          data() {
                 return {
-                    loginStatus: this.currentUID===null,
                     currentComponent: "TopPage",
                     scrollY:0,
                 }
             },
             computed: {
       currentUID(){
-          return this.$store.getters.currentUID()
-      }  
+          return this.$store.getters.currentUID
+      },
+     logInState(){
+       return  this.currentUID!==null
+     },
     },
             mounted() {
                 window.addEventListener('scroll', this.handleScroll);
