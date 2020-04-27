@@ -90,6 +90,7 @@
     export default {
         computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
         created() {
+            let vm=this
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     console.log('状態：ログイン中');
@@ -106,10 +107,11 @@
                     recipes.off('child_added');
                     recipes.off("child_removed")
                     //追加されたとき
-                     
-                        
+                     console.log("finalRecipe",vm.finalRecipe)
+                       
                     recipes.on('child_added', (recipeSnapshot) => {
                         console.log("favorite is added!")
+                        console.log(recipeSnapshot)
                         let info = {
                             key: recipeSnapshot.key,
                             recipeInfo: recipeSnapshot.val()
@@ -126,13 +128,13 @@
                             return; //値が存在しなかったとき
                         }
                         
-                        if(this.finalRecipe){
-                    
-                        let index = getIndex(url, this.finalRecipe, "recipeUrl")   
+                        if(vm.finalRecipe.length!==0){
+                     console.log("不適切")//ここに入ってるつまりvm.finalRecipeがあることに
+                        let index = getIndex(url, vm.finalRecipe, "recipeUrl")   
                      
                     
-                this.$store.dispatch("changeIsfavorite",{boolean: true,index: index})
-                console.log("changeis Isfavorite",this.finalRecipe)
+                vm.$store.dispatch("changeIsfavorite",{boolean: true,index: index})
+                console.log("changeis Isfavorite",vm.finalRecipe)
                 }
                         
                         
@@ -155,7 +157,7 @@
                       
 　　　                  let url=recipeSnapshot.val().recipeUrl
 　　　                  
-  　　　　　if(this.finalRecipe){
+  　　　　　if(this.finalRecipe.length!==0){
     
                         let index = getIndex(url, this.finalRecipe, "recipeUrl")   
                     
@@ -194,6 +196,7 @@
             toTyping() {
                 this.$emit('toTyping')
             },
+            
             shrinking: function(e) {
                 let scale = 1
 

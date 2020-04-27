@@ -24,6 +24,9 @@ export default new Vuex.Store({
         removeRecipe(state,index){
             state.favoriteRecipesDB.splice(index,1);
      },
+     initaializeFinalRecipe(state){
+         state.favoriteRecipesDB=[]
+     },
      pushFinalRecipe(state,recipe){
          state.finalRecipe.push(recipe);
      },
@@ -44,6 +47,10 @@ export default new Vuex.Store({
         removeRecipe({commit},index){
             commit("removeRecipe",index);
    },
+    initaializeFinalRecipe({commit}){
+    
+        commit("initaializeFinalRecipe")
+    },
    pushFinalRecipe({commit},recipe){
        commit("pushFinalRecipe",recipe);
    },

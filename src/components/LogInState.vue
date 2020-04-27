@@ -1,24 +1,24 @@
 <template>
      <div>
-    
+    <div v-show="favoriteRecipesDB.length>0" class="alert alert-info center-block  mx-auto" role="alert">{{favoriteRecipesDB.length}}件のお気に入りがあります</div>
       <div class="wi container mt-5">
       
      <div class="recipe row justify-content-start">
   
-  <div class="item col-sm-4 col-md-3" v-for="data in favoriteRecipesDB" :key="data.key">
+  <div class="item col-sm-4 col-md-3" v-for="recipe in favoriteRecipesDB" :key="recipe.key">
          
          <div class="notouch">
          <div class="box">
          <div class="image">
-           <img class="book-item__image img-fluid" alt="" v-bind:src="data.recipeInfo.recipeImage">
+           <img class="book-item__image img-fluid" alt="" v-bind:src="recipe.recipeInfo.recipeImage">
          </div>
          <div class="detail">
-        <a class="recipeName" href="data.recipeInfo.recipeUrl">
+        <a class="recipeName" href="recipe.recipeInfo.recipeUrl">
            <div class="title">
-          {{data.recipeInfo.recipeTitle}}
+          {{recipe.recipeInfo.recipeTitle}}
            </div>
           </a>
-          <button @click="remove(data)" class="btn btn-danger">削除</button>
+          <button @click="remove(recipe)" class="btn btn-danger">削除</button>
          </div>
          </div>
          </div>
@@ -36,24 +36,23 @@ import firebase from 'firebase';
 import { mapGetters } from 'vuex'
 export default{
     
-computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
+computed: mapGetters(["currentUID","favoriteRecipesDB"]),
   
     methods: {
          setNullToUid(){
            this.$store.dispatch("changeLogInState",null)  
          },
-         remove(data){
-             console.log(data)
-          console.log("remove")
+         remove(recipe){
+             console.log(recipe)
+             
+          console.log(this.currentUID)
+          const vm=this
             firebase
             .database()
-            .ref(`favorites/${this.currentUID}/${data.key}`)
+            .ref(`favorites/${vm.currentUID}/${recipe.key}`)
             .remove()
             .then(()=>{
-                console.log(this.favoriteRecipesDB)
-                
-            
-              
+                console.log(vm.favoriteRecipesDB)
             })
             .catch(()=>{
                 console.log("fail")
@@ -69,6 +68,7 @@ computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
                     console.log('ログアウトしました');
                     this.$emit("changeToLogOut")
                     this.setNullToUid
+                    this.$store.dispatch("initaializeFinalRecipe")
                 })
                 .catch((error) => {
                     // ログアウトに失敗したときの処理
@@ -114,7 +114,11 @@ computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
      
       border-radius:20px;
 }
-
+.alert {
+      margin-top:80px;
+      text-align:center;
+      width:50%;
+}
 
 .image{
  height:200px;

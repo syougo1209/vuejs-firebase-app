@@ -36,23 +36,7 @@ export default {
         },
    computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
          methods: {
-             /*
-             favoriteToTrue(url){
-                 console.log(this.finalRecipe)
-                 for(let i=0; i<this.finalRecipe.length; i++){
-          if(this.finalRecipe[i].recipeUrl===url){
-              console.log(url)
-              console.log(this.finalRecipe[i].recipeUrl)//ok
-              console.log("あよ",this.finalRecipe[i])//もともとtrue
-           this.finalRecipe[i].isFavorite=true;
-           console.log("更",this.finalRecipe[i])
-           break;
-      }
-      
-                 }
-      
-      
-             },*/
+          
             serchFirebase() {
                 this.items=[]
                 this.$store.dispatch("setToFinalRecipe",[])
