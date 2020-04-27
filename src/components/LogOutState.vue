@@ -1,6 +1,7 @@
 <template>
     <div>
    <h1 >ログイン</h1>
+   <div v-show="failMessage!==''" class="alert alert-danger center-block  mx-auto" role="alert">{{failMessage}}</div>
     <form class="login-form mt-4 col-sm-12 col-lg-10">
       MAIL：<input v-model="email" type="email" id="user-mail"><br>
       PASS：<input v-model="password" type="password" id="user-pass"><br>
@@ -31,7 +32,7 @@ export default{
                 .catch((error) => {
                     // ログインに失敗したときの処理
                     console.error('ログインエラー', error);
-                    
+                    this.failMessage="メールアドレスまたはパスワードが違います"
                 });
 
         },
@@ -59,6 +60,7 @@ export default{
         return {
             email: "",
             password: "",
+            failMessage: "",
         }
 
     }
@@ -74,6 +76,11 @@ h1{
         margin: 150px auto;
         text-align:center;
     }
+     .alert {
+      text-align:center;
+      width:50%;
+      margin-top:60px;
+}
     
     
 </style>

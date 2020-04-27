@@ -5,7 +5,7 @@
       <div class="container-fluid">
 
         <!-- ホームリンク -->
-        <a href="#" class="navbar-brand" v-on:click='toTop()' aria-label="ホーム">
+        <a href="#" class="navbar-brand" @click="currentComponent='TopPage'" aria-label="ホーム">
          <i class="far fa-lemon"></i>
         </a>
 
@@ -26,18 +26,25 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#kittens" @click="currentComponent='VoiceCaptureComponent'">音声で入力</a>
-            </li>
-            <template v-if="logInState">
-            <li class="nav-item">
-              <a class="nav-link" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">お気に入り</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#gallery" @click="logOut">ログアウト</a>
-            </li>
-            </template>
-            <li v-else class="nav-item">
-              <a  class="nav-link" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">ログイン</a>
-            </li>
+</li>
+
+
+
+<template v-if="logInState">
+            <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              ユーザー
+               </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">お気に入り</a>
+          <a class="dropdown-item" href="#gallery" @click="logOut">ログアウト</a> 
+          </div>
+         </li>
+      </template>
+<li v-else class="nav-item">
+  <a class="nav-link" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">ログイン</a>
+</li>
+      
           </ul>
         </div>
         <!--/.nav-collapse -->

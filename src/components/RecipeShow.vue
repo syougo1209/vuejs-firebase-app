@@ -22,7 +22,7 @@
           {{data.recipeTitle}}
            </div> 
           </a>
-          <div class="favorite-button mb-0">
+          <div v-show="currentUID!==null" class="favorite-button mb-0">
            <button v-if="data.isFavorite" class="fav-b btn btn-success">お気に入り</button>
            
            <button v-else  class="fav-b btn btn-primary"　@click="addFavorite(data)">登録</button>

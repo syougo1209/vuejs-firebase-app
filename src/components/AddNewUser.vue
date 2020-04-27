@@ -1,6 +1,7 @@
 <template>
     <div>
    <h1>アカウント作成</h1>
+   <div v-show="failMessage!==''" class="alert alert-danger center-block  mx-auto" role="alert">{{failMessage}}</div>
    <form class="create-form mt-4 col-sm-12 col-lg-10">
       MAIL：<input v-model="email" type="email" id="user-mail"><br>
       PASS：<input v-model="password" type="password" id="user-pass"><br>
@@ -17,6 +18,7 @@ export default{
     return{   email:"",
               password:"", 
               message:"作成",
+              failMessage:""
     }
     },
     methods:{
@@ -32,6 +34,8 @@ export default{
   })
   .catch((error) => {
     console.error('ユーザ作成に失敗:', error);
+    this.failMessage="このメールアドレスまたはパスワードは利用できません"
+    this.message="作成"
   });
 
         }
@@ -51,4 +55,5 @@ export default{
     #create-button{
         text-align:center;
     }
+    
 </style>

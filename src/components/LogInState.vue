@@ -58,7 +58,8 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
                 console.log(vm.favoriteRecipesDB)
             })
             .catch(()=>{
-                console.log("fail")
+                console.log("fail");
+                
             })
         },
          
