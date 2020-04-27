@@ -40,10 +40,9 @@
         
       <keep-alive>
         <component :is="currentComponent" id="action-items"
-        @toPicture="currentComponent='TopPage'"
         @toVoice="currentComponent='VoiceCaptureComponent'"
         @toTyping="currentComponent='TypeInputComponent'"
-        @tofavorite="currentComponent='FavoriteAgentComponent'"
+        @toFavorite="currentComponent='FavoriteAgentComponent'"
         ></component>
         </keep-alive>
         </div>

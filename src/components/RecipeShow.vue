@@ -27,7 +27,6 @@
            
            <button v-else  class="btn btn-primary"　@click="addFavorite(data)">お気に入り登録</button>
            
-         
          </div>
          </div>
          </div>
@@ -48,8 +47,7 @@
    
      methods:{
         addFavorite(data){
-          
-           
+        
             const favoriteRecipe={
                 recipeUrl: data.recipeUrl,
                 recipeImage: data.foodImageUrl,

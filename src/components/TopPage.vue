@@ -14,24 +14,9 @@
             <div class="row justify-content-center no-gutters">
 
 
-                <div class="col-4 mt-5">
+                
 
-                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging">
-                        <div class="no-touch">
-                            <div class="pic-wrapper">
-                                <img src="../assets/kitten1.jpg" class="img-fluid">
-                            </div>
-                            <div class="pic-detail">
-                                <div class="pic-theme"></div>
-                                <div class="pic-description">
-                                    <p>音声</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-4 mt-5">
+                <div class="col-6 mt-5">
 
                     <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toTyping">
                         <div class="no-touch">
@@ -41,7 +26,7 @@
                             <div class="pic-detail">
                                 <div class="pic-theme"></div>
                                 <div class="pic-description">
-                                    <p>画像</p>
+                                    <p>文字入力</p>
                                 </div>
                             </div>
                         </div>
@@ -51,9 +36,9 @@
 
 
 
-                <div class="col-4 mt-5">
+                <div class="col-6 mt-5">
 
-                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toTyping">
+                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toVoice">
                         <div class="no-touch">
                             <div class="pic-wrapper">
                                 <img src="../assets/kitten1.jpg" class="img-fluid">
@@ -61,7 +46,7 @@
                             <div class="pic-detail">
                                 <div class="pic-theme"></div>
                                 <div class="pic-description">
-                                    <p>タイピング</p>
+                                    <p>音声入力</p>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +63,7 @@
 
 
     <div class="to_favorite_recipes">
-        <button type="button" class="btn btn-outline-success rounded-pill mx-auto d-block mt-5" style="width:300px;height:70px">ブロックレベル</button>
+        <button type="button" @click="toFavorite" class="btn btn-outline-success rounded-pill mx-auto d-block mt-5" style="width:300px;height:70px">お気に入りル</button>
 </div>
 </div>
 </template>
@@ -187,14 +172,15 @@
         },
 
         methods: {
-            toPicture() {
-                this.$emit('toPicture')
-            },
+            
             toVoice() {
                 this.$emit('toVoice')
             },
             toTyping() {
                 this.$emit('toTyping')
+            },
+            toFavorite(){
+                this.$emit('toFavorite')
             },
             
             shrinking: function(e) {
@@ -298,7 +284,7 @@
         text-align: center;
         background-color: white;
         border-radius: 20px;
-        width: 80%;
+        width: 60%;
         margin: 0 auto;
     }
 
