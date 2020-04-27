@@ -1,9 +1,7 @@
 <template>
-    <component :is="currentState"
-   @changeToLogIn="currentState='LogInState'"
-   @changeToLogOut="currentState='LogOutState'"
-   @changeToAdd="currentState='AddNewUser'"
-   ></component>
+<div>
+    <router-view></router-view>
+</div>
 </template>
 
 <script>

@@ -17,7 +17,7 @@
            <img class="book-item__image img-fluid" alt="" v-bind:src="data.foodImageUrl">
          </div>
          <div class="detail">
-        <a class="recipeName" href="data.recipeUrl">
+        <a class="recipeName" :href="data.recipeUrl">
            <div class="title">
           {{data.recipeTitle}}
            </div> 

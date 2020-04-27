@@ -131,8 +131,6 @@
                         if (this.finalRecipe.length !== 0) {
 
                             let index = vm.getIndex(url, this.finalRecipe, "recipeUrl")
-
-
                             this.$store.dispatch("changeIsfavorite", { boolean: false, index: index })
                             console.log("changeis favoir", this.finalRecipe)
                         }

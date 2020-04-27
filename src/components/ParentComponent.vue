@@ -19,30 +19,30 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item" >
-              <a class="nav-link"  href="#top" @click="currentComponent='TopPage'">Top</a>
+              <router-link class="nav-link" to="/">Top</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#puppies" @click="currentComponent='TypeInputComponent'">文字で入力</a>
+              <router-link class="nav-link" to="/type">文字で入力</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#kittens" @click="currentComponent='VoiceCaptureComponent'">音声で入力</a>
+              <router-link class="nav-link" to="/voice">音声入力</router-link>
 </li>
 
 
 
-<template v-if="logInState">
+          <template v-if="logInState">
             <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               ユーザー
                </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">お気に入り</a>
-          <a class="dropdown-item" href="#gallery" @click="logOut">ログアウト</a> 
+           <router-link class="nav-link" to="/user/favorite">お気に入り</router-link>
+            <a class="nav-link"  @click="logOut">ログアウト</a>
           </div>
          </li>
       </template>
 <li v-else class="nav-item">
-  <a class="nav-link" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">ログイン</a>
+  <router-link class="nav-link" to="/user/login">ログイン</router-link>
 </li>
       
           </ul>
@@ -51,24 +51,13 @@
       </div>
       <!--/.container-fluid -->
     </nav>
-   
-        
-      <keep-alive>
-        <component :is="currentComponent" id="action-items"
-        @toVoice="currentComponent='VoiceCaptureComponent'"
-        @toTyping="currentComponent='TypeInputComponent'"
-        @toFavorite="currentComponent='FavoriteAgentComponent'"
-        ></component>
-        </keep-alive>
+  
+        <router-view></router-view>
         </div>
 </template>
 
 <script>
-    import TopPage from "./TopPage.vue";
-    import firebase from 'firebase';
-    import VoiceCaptureComponent from "./VoiceCaptureComponent.vue";
-    import  TypeInputComponent from "./TypeInputComponent.vue";
-    import FavoriteAgentComponent from "./FavoriteAgentComponent.vue";
+   import firebase from 'firebase';
     export default{
          data() {
                 return {
@@ -99,9 +88,10 @@
                 .then(() => {
                     // ログアウトに成功したときの処理
                     console.log('ログアウトしました');
-                    this.$emit("changeToLogOut");
-                    this.$eventHub.$emit('logOutFromParent');
-                    this.setNullToUid
+                   // this.$emit("changeToLogOut");
+                //    this.$eventHub.$emit('logOutFromParent');
+                  this.$router.push("user/login")
+                    this.$store.dispatch("changeLogInState",null)
                     this.$store.dispatch("initaializeFinalRecipe")
                 })
                 .catch((error) => {
@@ -113,12 +103,7 @@
 
         }
             },
-       components:{
-            TopPage,
-            VoiceCaptureComponent,
-            TypeInputComponent,
-            FavoriteAgentComponent
-        }  
+      
     }
    
 </script>
