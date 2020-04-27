@@ -3,21 +3,13 @@
         
    <h2 class="title">材料を検索してください</h2>
    
-   <section id="type-input" >
-    <input v-model="beforeInputMaterial" type="text">
-    <button @click="serchFirebase" class="btn btn-primary ml-4">検索</button>
-    </section>
-    
+   <div class="type-input input-group mt-4">
+  <input v-model="beforeInputMaterial"  type="text" class="form-control">
+  <div class="input-group-append">
+    <button @click="serchFirebase" type="button" class="btn btn-outline-secondary btn-primary">レシピを検索</button>
+  </div>
+</div>
     <RecipeShow ></RecipeShow>
-    <ul id="example">
-  <li
-    v-for="item in items"
-    v-bind:key="item.recipeUrl"
-  >
-    {{ item.recipeTitle}}
-  </li>
-</ul>
-<p> {{input_material}}</p>
     </div>
 </template>
 
@@ -153,11 +145,13 @@ export default {
 <style scoped>
     .title{
         text-align:center;
-        margin-top:70px;
+        margin-top:100px;
     }
-    #type-input{
-    margin-top:30px;
+    .type-input{
+  
     text-align : center ;
+    margin:30px auto;
+    width: 50%;
     }
     
     

@@ -1,11 +1,11 @@
 <template>
      <div>
-    <div v-show="favoriteRecipesDB.length>0" class="alert alert-info center-block  mx-auto" role="alert">{{favoriteRecipesDB.length}}件のお気に入りがあります</div>
+    <div v-show="favoriteRecipesDB.length>0" class="alert alert-info center-block  mx-auto " role="alert">{{favoriteRecipesDB.length}}件のお気に入りがあります</div>
       <div class="wi container mt-5">
       
      <div class="recipe row justify-content-start">
   
-  <div class="item col-sm-4 col-md-3" v-for="recipe in favoriteRecipesDB" :key="recipe.key">
+  <div class="item col-xs-12 col-md-4 col-lg-3" v-for="recipe in favoriteRecipesDB" :key="recipe.key">
          
          <div class="notouch">
          <div class="box">
@@ -18,7 +18,9 @@
           {{recipe.recipeInfo.recipeTitle}}
            </div>
           </a>
-          <button @click="remove(recipe)" class="btn btn-danger">削除</button>
+          <div class="favorite-button">
+          <button @click="remove(recipe)" class="fav-b btn btn-danger">削除</button>
+        </div>
          </div>
          </div>
          </div>
@@ -85,9 +87,14 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
 </script>
 
 <style scoped>
-    .recipeName　:hover {
+         .recipeName　:hover {
     transform: scale(0.8);
     transition: .2s;
+}
+.alert {
+      text-align:center;
+      width:50%;
+      margin-top:60px;
 }
 
 .recipe-items{
@@ -96,7 +103,7 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
 }
 
 .recipe-item{
- height:270px;
+ height:300px;
  text-align:center;
   margin: 0 auto;
   justify-content:space-between;
@@ -105,31 +112,26 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
 .item{
      
      padding:20px;
-   
 }
 
 .box{
       border:1px solid #dcdcdc;
       background-color:#f5f5f5;
-     
+     position: relative;
       border-radius:20px;
 }
-.alert {
-      margin-top:80px;
-      text-align:center;
-      width:50%;
-}
+
 
 .image{
- height:200px;
+ height:180px;
  vertical-align:middle;
  border-bottom:1px solid #dcdcdc;
  text-align: center;
  
 }
 .detail{
- height:70px;
- font-size: 14px;
+ font-size:15px;
+ height:120px;
 }
 
 .recipe{
@@ -141,6 +143,14 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
  
  height:30px;
 }
+.favorite-button{
+bottom: 10px;
+right: 10px;
+ position: absolute;
+}
+.fav-b{
+ margin-bottom:0;
+}
 
 .book-item__image{
     margin-top:15px; 
@@ -149,7 +159,6 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
 }
 .detail{
  padding:10px;
- 
 }
     
 </style>

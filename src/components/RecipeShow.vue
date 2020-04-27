@@ -1,7 +1,7 @@
 <template>
      <div>
      
-      <div v-show="finalRecipe.length>0" class="alert alert-info center-block mt-5 mx-auto" role="alert">{{finalRecipe.length}}件の新着情報があります</div>
+      <div v-show="finalRecipe.length>0" class="alert alert-info center-block  mx-auto" role="alert">{{finalRecipe.length}}件の新着情報があります</div>
    
    
     
@@ -9,7 +9,7 @@
       
      <div class="recipe row justify-content-start">
   
-  <div class="item col-sm-4 col-md-3" v-for="data in finalRecipe" :key="data.recipeUrl">
+  <div class="item col-xs-12 col-md-4 col-lg-3" v-for="data in finalRecipe" :key="data.recipeUrl">
          
          <div class="notouch">
          <div class="box">
@@ -22,11 +22,11 @@
           {{data.recipeTitle}}
            </div> 
           </a>
+          <div class="favorite-button mb-0">
+           <button v-if="data.isFavorite" class="fav-b btn btn-success">お気に入り</button>
            
-           <button v-if="data.isFavorite" class="btn btn-success">お気に入り</button>
-           
-           <button v-else  class="btn btn-primary"　@click="addFavorite(data)">お気に入り登録</button>
-           
+           <button v-else  class="fav-b btn btn-primary"　@click="addFavorite(data)">登録</button>
+           </div>
          </div>
          </div>
          </div>
@@ -81,6 +81,7 @@
 .alert {
       text-align:center;
       width:50%;
+      margin-top:60px;
 }
 
 .recipe-items{
@@ -89,7 +90,7 @@
 }
 
 .recipe-item{
- height:270px;
+ height:300px;
  text-align:center;
   margin: 0 auto;
   justify-content:space-between;
@@ -98,27 +99,26 @@
 .item{
      
      padding:20px;
-   
 }
 
 .box{
       border:1px solid #dcdcdc;
       background-color:#f5f5f5;
-     
+     position: relative;
       border-radius:20px;
 }
 
 
 .image{
- height:200px;
+ height:180px;
  vertical-align:middle;
  border-bottom:1px solid #dcdcdc;
  text-align: center;
  
 }
 .detail{
- height:70px;
- font-size: 14px;
+ font-size:15px;
+ height:120px;
 }
 
 .recipe{
@@ -130,6 +130,14 @@
  
  height:30px;
 }
+.favorite-button{
+bottom: 10px;
+right: 10px;
+ position: absolute;
+}
+.fav-b{
+ margin-bottom:0;
+}
 
 .book-item__image{
     margin-top:15px; 
@@ -138,7 +146,6 @@
 }
 .detail{
  padding:10px;
- 
 }
     
 </style>

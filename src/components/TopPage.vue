@@ -3,7 +3,7 @@
     <div class="img_area ">
         背景画像
         <div class="caption_area">
-            <h1>ロゴ</h1>
+            <h1>あなたの冷蔵庫の残りから最高のレシピを提供します</h1>
         </div>
     </div>
 
@@ -16,17 +16,18 @@
 
                 
 
-                <div class="col-6 mt-5">
+                <div class="col-lg-6 mt-5">
 
                     <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toTyping">
                         <div class="no-touch">
                             <div class="pic-wrapper">
-                                <img src="../assets/kitten1.jpg" class="img-fluid">
+                                <img src="../assets/Laptop 4.jpeg" class="img-fluid">
                             </div>
                             <div class="pic-detail">
                                 <div class="pic-theme"></div>
-                                <div class="pic-description">
-                                    <p>文字入力</p>
+                                <div class="pic-description mt-3">
+                                    <h3>文字入力</h3>
+                                    <p>レシピを材料から検索できます</p>
                                 </div>
                             </div>
                         </div>
@@ -36,17 +37,18 @@
 
 
 
-                <div class="col-6 mt-5">
+                <div class="col-lg-6 mt-5">
 
                     <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toVoice">
                         <div class="no-touch">
                             <div class="pic-wrapper">
-                                <img src="../assets/kitten1.jpg" class="img-fluid">
+                                <img src="../assets/image_processing20190811-20624-1mhglkn.png" class="img-fluid">
                             </div>
                             <div class="pic-detail">
                                 <div class="pic-theme"></div>
-                                <div class="pic-description">
-                                    <p>音声入力</p>
+                                <div class="pic-description mt-3">
+                                    <h3>音声入力</h3>
+                                    <p>音声でレシピを材料から検索できます(chromeのみ可能です)</p>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +65,7 @@
 
 
     <div class="to_favorite_recipes">
-        <button type="button" @click="toFavorite" class="btn btn-outline-success rounded-pill mx-auto d-block mt-5" style="width:300px;height:70px">お気に入りル</button>
+        <button type="button" @click="toFavorite" class="btn btn-outline-success rounded-pill mx-auto d-block mt-5" style="width:300px;height:70px">お気に入り</button>
 </div>
 </div>
 </template>
@@ -73,9 +75,9 @@
     import { mapGetters } from 'vuex';
 
     export default {
-        computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
+        computed: mapGetters(["currentUID", "favoriteRecipesDB", "finalRecipe"]),
         created() {
-            let vm=this
+            let vm = this
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     console.log('状態：ログイン中');
@@ -92,8 +94,8 @@
                     recipes.off('child_added');
                     recipes.off("child_removed")
                     //追加されたとき
-                     console.log("finalRecipe",vm.finalRecipe)
-                       
+                    console.log("finalRecipe", vm.finalRecipe)
+
                     recipes.on('child_added', (recipeSnapshot) => {
                         console.log("favorite is added!")
                         console.log(recipeSnapshot)
@@ -102,58 +104,42 @@
                             recipeInfo: recipeSnapshot.val()
                         }
                         this.$store.dispatch("addToFavoriteRecipesDB", info)
-                        
-                         let url=recipeSnapshot.val().recipeUrl
-                        function getIndex(value, arr, prop) {
-                            for (var i = 0; i < arr.length; i++) {
-                                if (arr[i][prop] === value) {
-                                    return i;
-                                }
-                            }
-                            return; //値が存在しなかったとき
+
+                        let url = recipeSnapshot.val().recipeUrl
+
+                        if (vm.finalRecipe.length !== 0) {
+                            console.log("不適切") //ここに入ってるつまりvm.finalRecipeがあることに
+                            let index = vm.getIndex(url, vm.finalRecipe, "recipeUrl")
+                            
+                            vm.$store.dispatch("changeIsfavorite", { boolean: true, index: index })
+                            console.log("changeis Isfavorite", vm.finalRecipe)
                         }
-                        
-                        if(vm.finalRecipe.length!==0){
-                     console.log("不適切")//ここに入ってるつまりvm.finalRecipeがあることに
-                        let index = getIndex(url, vm.finalRecipe, "recipeUrl")   
-                     
-                    
-                vm.$store.dispatch("changeIsfavorite",{boolean: true,index: index})
-                console.log("changeis Isfavorite",vm.finalRecipe)
-                }
-                        
-                        
+
+
 
                     });
 
 
                     recipes.on('child_removed', (recipeSnapshot) => {
                         console.log("削除")
-                        function getIndex(value, arr, prop) {
-                            for (var i = 0; i < arr.length; i++) {
-                                if (arr[i][prop] === value) {
-                                    return i;
-                                }
-                            }
-                            return; //値が存在しなかったとき
-                        }
-                        
+
+
                         console.log(recipeSnapshot.val().recipeUrl)
-                      
-　　　                  let url=recipeSnapshot.val().recipeUrl
-　　　                  
-  　　　　　if(this.finalRecipe.length!==0){
-    
-                        let index = getIndex(url, this.finalRecipe, "recipeUrl")   
-                    
-                    
-                this.$store.dispatch("changeIsfavorite",{boolean: false,index: index})
-                console.log("changeis favoir",this.finalRecipe)
-                }
-                
-                        let index = getIndex(recipeSnapshot.key, this.favoriteRecipesDB, "key")
+
+                        　　　
+                        let url = recipeSnapshot.val().recipeUrl　　　　　　　　
+                        if (this.finalRecipe.length !== 0) {
+
+                            let index = vm.getIndex(url, this.finalRecipe, "recipeUrl")
+
+
+                            this.$store.dispatch("changeIsfavorite", { boolean: false, index: index })
+                            console.log("changeis favoir", this.finalRecipe)
+                        }
+
+                        let index = vm.getIndex(recipeSnapshot.key, this.favoriteRecipesDB, "key")
                         console.log("消えた配列の番号", index);
-                       
+
                         this.$store.dispatch("removeRecipe", index)
                     }) //削除
 
@@ -172,17 +158,25 @@
         },
 
         methods: {
-            
+
             toVoice() {
                 this.$emit('toVoice')
             },
             toTyping() {
                 this.$emit('toTyping')
             },
-            toFavorite(){
+            toFavorite() {
                 this.$emit('toFavorite')
             },
-            
+            getIndex(value, arr, prop) {
+                            for (var i = 0; i < arr.length; i++) {
+                                if (arr[i][prop] === value) {
+                                    return i;
+                                }
+                            }
+                            return; //値が存在しなかったとき
+                        },
+
             shrinking: function(e) {
                 let scale = 1
 
@@ -236,9 +230,10 @@
     .img_area {
         position: relative;
         /* 子要素の起点を指定 */
-        height: 400px;
-        /* background-image: url("https://ds-b.jp/media/files/libs/15596/201901091544376843.jpg?1583378494");/* 高さ指定 */
-        background-color: red;
+        height: 600px;
+         background-image: url("../assets/https___imgix-proxy.n8s.jp_content_pic_20170522_96958A9F889DE3E4E0EAE4E2E2E2E3E0E2E7E0E2E3E5E2E2E2E2E2E2-DSXZZO1628609012052017000000-PB1-12.jpg");
+        background-color: black;
+        background-size: contain;
         background-size: cover;
         text-align: center;
     }
@@ -248,7 +243,7 @@
         /* 要素の配置方法を指定 */
         color: #fff;
         /* 文字色指定 */
-        width: 200px;
+        width: 500px;
 
         padding-top: 5px;
         height: 70px;
@@ -257,7 +252,7 @@
         /* 文字を中央揃えに */
         font-size: 50px;
         /* フォントサイズ指定 */
-        top: 200px;
+        top: 300px;
         /* 上からの位置指定 */
         bottom: 0;
         /* 下からの位置指定 */
@@ -280,7 +275,7 @@
     }
 
     .pic_frame {
-        height: 300px;
+        height: 350px;
         text-align: center;
         background-color: white;
         border-radius: 20px;
@@ -289,13 +284,14 @@
     }
 
     .pic-wrapper {
-        height: 150px
+
+        height: 200px
     }
 
     .pic-wrapper img {
         border-radius: 20px 20px 0px 0px;
         width: 100%;
-        height: 150px;
+        height: 200px;
         object-fit: contain;
     }
 
