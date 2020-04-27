@@ -32,7 +32,7 @@
               <a class="nav-link" href="#gallery" @click="currentComponent='FavoriteAgentComponent'">お気に入り</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#gallery" >ログアウト</a>
+              <a class="nav-link" href="#gallery" @click="logOut">ログアウト</a>
             </li>
             </template>
             <li v-else class="nav-item">
@@ -58,6 +58,7 @@
 
 <script>
     import TopPage from "./TopPage.vue";
+    import firebase from 'firebase';
     import VoiceCaptureComponent from "./VoiceCaptureComponent.vue";
     import  TypeInputComponent from "./TypeInputComponent.vue";
     import FavoriteAgentComponent from "./FavoriteAgentComponent.vue";
@@ -83,6 +84,26 @@
                 handleScroll() {
                     this.scrollY = window.scrollY
                 },
+                   logOut() {
+             
+            firebase
+                .auth()
+                .signOut() // ログアウト実行
+                .then(() => {
+                    // ログアウトに成功したときの処理
+                    console.log('ログアウトしました');
+                    this.$emit("changeToLogOut")
+                    this.setNullToUid
+                    this.$store.dispatch("initaializeFinalRecipe")
+                })
+                .catch((error) => {
+                    // ログアウトに失敗したときの処理
+                    console.error('ログアウトエラー', error);
+                });
+                
+                
+
+        }
             },
        components:{
             TopPage,
