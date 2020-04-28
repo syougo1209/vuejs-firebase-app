@@ -9,7 +9,8 @@
     <button @click="serchFirebase" type="button" class="btn btn-outline-secondary btn-primary">レシピを検索</button>
   </div>
 </div>
-    <RecipeShow ></RecipeShow>
+
+    <router-view></router-view>
     </div>
 </template>
 
@@ -88,7 +89,7 @@ export default {
                                     
                                 }//j
                             }
-                            console.log("お気に入り",vm.finalRecipe)
+                            console.log("finalrecipe",vm.finalRecipe)
                         }//else
                     })
                 },

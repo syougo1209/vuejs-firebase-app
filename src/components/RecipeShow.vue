@@ -47,7 +47,7 @@
    
      methods:{
         addFavorite(data){
-        
+      
             const favoriteRecipe={
                 recipeUrl: data.recipeUrl,
                 recipeImage: data.foodImageUrl,

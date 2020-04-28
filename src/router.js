@@ -20,17 +20,28 @@ import(/* webpackChunkName: "TypeInputComponent" */ './components/TypeInputCompo
 const VoiceCaptureComponent = () => 
 import(/* webpackChunkName: "VoiceCaptureComponent" */ './components/VoiceCaptureComponent.vue')
 
+
 Vue.use(Router);
 
 export default new Router({
     mode: "history",
-    routes:[{path: "/",
+    routes:[
+        {path:"/",
+        component: ParentComponent,
+        children: [
+            {path: "",
     component: TopPage},
     {path: "/type",
-     component:TypeInputComponent   
+     component:TypeInputComponent,
+     children: [
+         {path: "",component: RecipeShow}
+         ]
     },{
       path: "/voice",
-     component:VoiceCaptureComponent    
+     component:VoiceCaptureComponent,
+      children: [
+         {path: "",component: RecipeShow}
+         ]
     },
     {
       path: "/user",
@@ -42,4 +53,15 @@ export default new Router({
           ]
     }
     ]
+        },{
+        path: "*",
+        redirect:"/"
+        }
+    ],
+    scrollBehavior(to,from,savedPosition){
+        if(savedPosition){
+            return savedPosition;
+        }
+        return {x:0, y:0}
+    }
 })

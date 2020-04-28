@@ -10,7 +10,7 @@
     <button @click="voiceCapture" class="btn btn-primary mr-2">{{recognitionText}}</button>
     <button @click="serchFirebase" class="btn btn-primary">レシピを表示</button>
     </section>
-    <RecipeShow ></RecipeShow>
+    <router-view></router-view>
     
     </div>
      

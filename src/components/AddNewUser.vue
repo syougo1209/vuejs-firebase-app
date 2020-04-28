@@ -31,6 +31,7 @@ export default{
     console.log('ユーザ作成に成功',user);
     this.$emit("changeToLogIn")
     this.message="作成"
+    this.$router.push("/user/favorite")
   })
   .catch((error) => {
     console.error('ユーザ作成に失敗:', error);

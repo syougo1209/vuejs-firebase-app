@@ -1,3 +1,4 @@
+
 <template>
       <div>
     <div class="img_area ">
@@ -18,7 +19,7 @@
 
                 <div class="col-lg-6 mt-5">
 
-                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toTyping">
+                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" >
                         <div class="no-touch">
                             <div class="pic-wrapper">
                                 <img src="../assets/Laptop 4.jpeg" class="img-fluid">
@@ -39,7 +40,7 @@
 
                 <div class="col-lg-6 mt-5">
 
-                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toVoice">
+                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" >
                         <div class="no-touch">
                             <div class="pic-wrapper">
                                 <img src="../assets/image_processing20190811-20624-1mhglkn.png" class="img-fluid">
@@ -75,26 +76,28 @@
     import { mapGetters } from 'vuex';
 
     export default {
-        computed: mapGetters(["currentUID", "favoriteRecipesDB", "finalRecipe"]),
+        computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
         created() {
+            
             let vm = this
             firebase.auth().onAuthStateChanged((user) => {
+                   this.$store.dispatch("changeLogInState",null)
+                    this.$store.dispatch("initaializeFinalRecipe")
+                    this.$store.dispatch("setToFinalRecipe",[])
                 if (user) {
                     console.log('状態：ログイン中');
                     this.$store.dispatch("changeLogInState", user.uid)
-                    console.log("loginornot", this.currentUID);
-                    this.currentState = 'LogInState'
-
-
-                    console.log("mounted", this.currentUID);
+                    console.log("loginornot", vm.currentUID);
+                    //this.currentState = 'LogInState'
+　                   console.log("mounted", vm.currentUID);
                     const recipes = firebase
                         .database()
-                        .ref(`favorites/${this.currentUID}`)
+                        .ref(`favorites/${vm.currentUID}`)
 
                     recipes.off('child_added');
                     recipes.off("child_removed")
                     //追加されたとき
-                    console.log("finalRecipe", vm.finalRecipe)
+                    
 
                     recipes.on('child_added', (recipeSnapshot) => {
                         console.log("favorite is added!")
@@ -106,18 +109,17 @@
                         this.$store.dispatch("addToFavoriteRecipesDB", info)
 
                         let url = recipeSnapshot.val().recipeUrl
-
+                      console.log("finalRecipe",vm.finalRecipe);
+                      
                         if (vm.finalRecipe.length !== 0) {
-                            console.log("不適切") //ここに入ってるつまりvm.finalRecipeがあることに
+                            console.log("成功") //ここに入ってるつまりvm.finalRecipeがあることに
                             let index = vm.getIndex(url, vm.finalRecipe, "recipeUrl")
                             
                             vm.$store.dispatch("changeIsfavorite", { boolean: true, index: index })
                             console.log("changeis Isfavorite", vm.finalRecipe)
                         }
 
-
-
-                    });
+                    });//chils_added
 
 
                     recipes.on('child_removed', (recipeSnapshot) => {
@@ -126,16 +128,16 @@
 
                         console.log(recipeSnapshot.val().recipeUrl)
 
-                        　　　
+                        console.log(vm.finalRecipe)
                         let url = recipeSnapshot.val().recipeUrl　　　　　　　　
-                        if (this.finalRecipe.length !== 0) {
+                        if (vm.finalRecipe.length !== 0) {
 
-                            let index = vm.getIndex(url, this.finalRecipe, "recipeUrl")
+                            let index = vm.getIndex(url, vm.finalRecipe, "recipeUrl")
                             this.$store.dispatch("changeIsfavorite", { boolean: false, index: index })
-                            console.log("changeis favoir", this.finalRecipe)
+                            console.log("changeis favoir", vm.finalRecipe)
                         }
 
-                        let index = vm.getIndex(recipeSnapshot.key, this.favoriteRecipesDB, "key")
+                        let index = vm.getIndex(recipeSnapshot.key, vm.favoriteRecipesDB, "key")
                         console.log("消えた配列の番号", index);
 
                         this.$store.dispatch("removeRecipe", index)
@@ -150,21 +152,19 @@
                     this.$store.dispatch("changeLogInState", null)
                 }
 
-
-
             })
         },
 
         methods: {
 
             toVoice() {
-                this.$emit('toVoice')
+                this.$router.push("/voice")
             },
             toTyping() {
-                this.$emit('toTyping')
+                this.$router.push("/type")
             },
             toFavorite() {
-                this.$emit('toFavorite')
+                this.$router.push("/user/favorite")
             },
             getIndex(value, arr, prop) {
                             for (var i = 0; i < arr.length; i++) {

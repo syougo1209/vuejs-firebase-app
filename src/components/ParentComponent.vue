@@ -51,8 +51,9 @@
       </div>
       <!--/.container-fluid -->
     </nav>
-  
+  <keep-alive>
         <router-view></router-view>
+　</keep-alive>
         </div>
 </template>
 
@@ -89,10 +90,11 @@
                     // ログアウトに成功したときの処理
                     console.log('ログアウトしました');
                    // this.$emit("changeToLogOut");
-                //    this.$eventHub.$emit('logOutFromParent');
-                  this.$router.push("user/login")
+                   //this.$eventHub.$emit('logOutFromParent');
+                  this.$router.push("/user/login")
                     this.$store.dispatch("changeLogInState",null)
                     this.$store.dispatch("initaializeFinalRecipe")
+                    this.$store.dispatch("setToFinalRecipe",[])
                 })
                 .catch((error) => {
                     // ログアウトに失敗したときの処理

@@ -28,6 +28,7 @@ export default{
                     // ログインに成功したときの処理
                     console.log('ログインしました', user);
                     this.$emit("changeToLogIn")
+                    this.$router.push("/user/favorite")
                 })
                 .catch((error) => {
                     // ログインに失敗したときの処理
@@ -37,25 +38,15 @@ export default{
 
         },
          toAddUser(){
-             this.$emit('changeToAdd')
+           this.$router.push("/user/new")
         },
        
     },
-    mounted(){
-        firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        console.log('状態：ログイン中');
-        this.$store.dispatch("changeLogInState",user.uid)
-        console.log(this.currentUID);
-        
-    }
-    else {
-        console.log('状態：ログアウト');
-        this.$store.dispatch("changeLogInState",null)
-        
-    }
-});
-    },
+
+
+
+
+    
     data() {
         return {
             email: "",

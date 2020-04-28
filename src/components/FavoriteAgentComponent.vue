@@ -5,9 +5,7 @@
 </template>
 
 <script>
-import LogInState from "./LogInState.vue"
-import LogOutState from "./LogOutState.vue"
-import AddNewUser from "./AddNewUser.vue"
+
 //import firebase from 'firebase';
 export default {
     computed: {
@@ -15,29 +13,20 @@ export default {
           return this.$store.getters.currentUID
       },
     },
- data(){
-        return{
-            currentState:"",
-        }
-    },
     created(){
       if(this.currentUID===null){
-          this.currentState=LogOutState; 
+          this.$router.push("/user/login") 
       }
       else{
-        this.currentState=LogInState;  
+       this.$router.push("/user/favorite") 
       }
-      this.$eventHub.$on('logOutFromParent', this.changeToLogOut)
+      //this.$eventHub.$on('logOutFromParent', this.changeToLogOut)
     },
     methods:{
       changeToLogOut(){
-        this.currentState=LogOutState  
+        this.$router.push("/user/login") 
       },  
     },
-    components: {
-       LogInState,
-       LogOutState,
-        AddNewUser
-    }
+   
 }
 </script>
