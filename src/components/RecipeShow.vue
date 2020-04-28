@@ -40,112 +40,116 @@
 </template>
 
 <script>
-    import firebase from 'firebase';
-    import { mapGetters } from 'vuex'
-   export default{
-    computed: mapGetters(["currentUID","finalRecipe"]),
-   
-     methods:{
-        addFavorite(data){
-      
-            const favoriteRecipe={
-                recipeUrl: data.recipeUrl,
-                recipeImage: data.foodImageUrl,
-                recipeTitle: data.recipeTitle,
-               
-            };
-            firebase
-            .database()
-            .ref(`favorites/${this.currentUID}`)
-            .push(favoriteRecipe)
-            .then(()=>{
-                console.log("success");
-               
-            })
-            .catch(()=>{
-                console.log("fail")
-            })
-        },
-        
-    }
-       
-   } 
+ import firebase from 'firebase';
+ import { mapGetters } from 'vuex'
+ export default {
+  computed: mapGetters(["currentUID", "finalRecipe"]),
+
+  methods: {
+   addFavorite(data) {
+
+    const favoriteRecipe = {
+     recipeUrl: data.recipeUrl,
+     recipeImage: data.foodImageUrl,
+     recipeTitle: data.recipeTitle,
+
+    };
+    firebase
+     .database()
+     .ref(`favorites/${this.currentUID}`)
+     .push(favoriteRecipe)
+     .then(() => {
+      console.log("success");
+
+     })
+     .catch(() => {
+      console.log("fail")
+     })
+   },
+
+  }
+
+ }
 </script>
 
 <style scoped>
+ .recipeName:hover {
+  transform: scale(0.8);
+  transition: .2s;
+ }
 
-    .recipeName　:hover {
-    transform: scale(0.8);
-    transition: .2s;
-}
-.alert {
-      text-align:center;
-      width:50%;
-      margin-top:60px;
-}
+ .alert {
+  text-align: center;
+  width: 50%;
+  margin-top: 60px;
+ }
 
-.recipe-items{
- margin-top:150px;
- 
-}
+ .recipe-items {
+  margin-top: 150px;
 
-.recipe-item{
- height:300px;
- text-align:center;
+ }
+
+ .recipe-item {
+  height: 300px;
+  text-align: center;
   margin: 0 auto;
-  justify-content:space-between;
-}
+  justify-content: space-between;
+ }
 
-.item{
-     
-     padding:20px;
-}
+ .item {
 
-.box{
-      border:1px solid #dcdcdc;
-      background-color:#f5f5f5;
-     position: relative;
-      border-radius:20px;
-}
+  padding: 20px;
+ }
+
+ .box {
+  border: 1px solid #dcdcdc;
+  background-color: #f5f5f5;
+  position: relative;
+  border-radius: 20px;
+ }
 
 
-.image{
- height:180px;
- vertical-align:middle;
- border-bottom:1px solid #dcdcdc;
- text-align: center;
- 
-}
-.detail{
- font-size:15px;
- height:120px;
-}
+ .image {
+  height: 180px;
+  vertical-align: middle;
+  border-bottom: 1px solid #dcdcdc;
+  text-align: center;
 
-.recipe{
- margin-right:auto;
- margin-left:auto;
- 
-}
-.faborite{
- 
- height:30px;
-}
-.favorite-button{
-bottom: 10px;
-right: 10px;
- position: absolute;
-}
-.fav-b{
- margin-bottom:0;
-}
+ }
 
-.book-item__image{
-    margin-top:15px; 
-    width:85%;
-    height:85%;
-}
-.detail{
- padding:10px;
-}
-    
+ .detail {
+  font-size: 15px;
+  height: 120px;
+ }
+
+ .recipe {
+  margin-right: auto;
+  margin-left: auto;
+
+ }
+
+ .faborite {
+
+  height: 30px;
+ }
+
+ .favorite-button {
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+ }
+
+ .fav-b {
+  margin-bottom: 0;
+ }
+
+ .book-item__image {
+  margin-top: 15px;
+  width: 85%;
+  height: 85%;
+ }
+
+ .detail {
+  padding: 10px;
+ }
 </style>

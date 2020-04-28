@@ -12,62 +12,61 @@
 </template>
 
 <script>
-import firebase from 'firebase';
-export default{
-    computed: {
-      currentUID(){
-          return this.$store.getters.currentUID
-      }  
-    },
-     methods: {
-        logIn() {
-            firebase
-                .auth()
-                .signInWithEmailAndPassword(this.email, this.password)
-                .then((user) => {
-                    // ログインに成功したときの処理
-                    console.log('ログインしました', user);
-                    this.$emit("changeToLogIn")
-                    this.$router.push("/user/favorite")
-                })
-                .catch((error) => {
-                    // ログインに失敗したときの処理
-                    console.error('ログインエラー', error);
-                    this.failMessage="メールアドレスまたはパスワードが違います"
-                });
+    import firebase from 'firebase';
+    export default {
+        data() {
+            return {
+                email: "",
+                password: "",
+                failMessage: "",
+            }
 
         },
-         toAddUser(){
-           this.$router.push("/user/new")
+        computed: {
+            currentUID() {
+                return this.$store.getters.currentUID
+            }
         },
-       
-    },
+        methods: {
+            logIn() {
+                firebase
+                    .auth()
+                    .signInWithEmailAndPassword(this.email, this.password)
+                    .then((user) => {
+                        // ログインに成功したときの処理
+                        console.log('ログインしました', user);
+                        this.$emit("changeToLogIn")
+                        this.$router.push("/user/favorite")
+                    })
+                    .catch((error) => {
+                        // ログインに失敗したときの処理
+                        console.error('ログインエラー', error);
+                        this.failMessage = "メールアドレスまたはパスワードが違います"
+                    });
 
-    data() {
-        return {
-            email: "",
-            password: "",
-            failMessage: "",
-        }
+            },
+            toAddUser() {
+                this.$router.push("/user/new")
+            },
 
+        },
     }
-}
 </script>
 
 <style scoped>
-h1{
-   text-align:center;
-   margin-top:150px;
-}
-    .login-form{
-        margin: 150px auto;
-        text-align:center;
+    h1 {
+        text-align: center;
+        margin-top: 150px;
     }
-     .alert {
-      text-align:center;
-      width:50%;
-      margin-top:60px;
-}
-    
-    
+
+    .login-form {
+        margin: 150px auto;
+        text-align: center;
+    }
+
+    .alert {
+        text-align: center;
+        width: 50%;
+        margin-top: 60px;
+    }
 </style>

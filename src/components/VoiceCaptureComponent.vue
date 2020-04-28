@@ -71,7 +71,8 @@
             voiceCapture() {
                 this.input_material = [];　　　
                 this.items = [];　　
-                this.$store.dispatch("setToFinalRecipe", [])　　 this.recognition.start();
+                this.$store.dispatch("setToFinalRecipe", [])　　
+                this.recognition.start();
             },
             serchFirebase() {
                 this.recognition.stop();

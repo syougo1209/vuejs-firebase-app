@@ -42,71 +42,70 @@
          </li>
       </template>
 <li v-else class="nav-item">
-  <router-link class="nav-link" to="/user/login">ログイン</router-link>
+    <router-link class="nav-link" to="/user/login">ログイン</router-link>
 </li>
-      
-          </ul>
-        </div>
-        <!--/.nav-collapse -->
-      </div>
-      <!--/.container-fluid -->
-    </nav>
-  <keep-alive>
-        <router-view></router-view>
-　</keep-alive>
-        </div>
+
+</ul>
+</div>
+<!--/.nav-collapse -->
+</div>
+<!--/.container-fluid -->
+</nav>
+<keep-alive>
+    <router-view></router-view>
+    </keep-alive>
+</div>
 </template>
 
 <script>
-   import firebase from 'firebase';
-    export default{
-         data() {
-                return {
-                    currentComponent: "TopPage",
-                    scrollY:0,
-                }
+    import firebase from 'firebase';
+    export default {
+        data() {
+            return {
+                currentComponent: "TopPage",
+                scrollY: 0,
+            }
+        },
+        computed: {
+            currentUID() {
+                return this.$store.getters.currentUID
             },
-            computed: {
-      currentUID(){
-          return this.$store.getters.currentUID
-      },
-     logInState(){
-       return  this.currentUID!==null
-     },
-    },
-            mounted() {
-                window.addEventListener('scroll', this.handleScroll);
+            logInState() {
+                return this.currentUID !== null
             },
-            methods: {
-                handleScroll() {
-                    this.scrollY = window.scrollY
-                },
-                   logOut() {
-             
-            firebase
-                .auth()
-                .signOut() // ログアウト実行
-                .then(() => {
-                    // ログアウトに成功したときの処理
-                    console.log('ログアウトしました');
-                   
-                  this.$router.push("/user/login")
-                    this.$store.dispatch("changeLogInState",null)
-                    this.$store.dispatch("initaializeFinalRecipe")
-                    this.$store.dispatch("setToFinalRecipe",[])
-                })
-                .catch((error) => {
-                    // ログアウトに失敗したときの処理
-                    console.error('ログアウトエラー', error);
-                });
-                
-                
+        },
+        mounted() {
+            window.addEventListener('scroll', this.handleScroll);
+        },
+        methods: {
+            handleScroll() {
+                this.scrollY = window.scrollY
+            },
+            logOut() {
 
-        }
-            },
-      
+                firebase
+                    .auth()
+                    .signOut() // ログアウト実行
+                    .then(() => {
+                        // ログアウトに成功したときの処理
+                        console.log('ログアウトしました');
+
+                        this.$router.push("/user/login")
+                        this.$store.dispatch("changeLogInState", null)
+                        this.$store.dispatch("initaializeFinalRecipe")
+                        this.$store.dispatch("setToFinalRecipe", [])
+                    })
+                    .catch((error) => {
+                        // ログアウトに失敗したときの処理
+                        console.error('ログアウトエラー', error);
+                    });
+
+
+
+            }
+        },
+
     }
-   
 </script>
 
 

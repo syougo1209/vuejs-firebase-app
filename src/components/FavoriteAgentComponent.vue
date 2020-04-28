@@ -6,7 +6,7 @@
 
 <script>
 
-//import firebase from 'firebase';
+
 export default {
     computed: {
       currentUID(){
@@ -20,7 +20,7 @@ export default {
       else{
        this.$router.push("/user/favorite") 
       }
-      //this.$eventHub.$on('logOutFromParent', this.changeToLogOut)
+     
     },
     methods:{
       changeToLogOut(){
