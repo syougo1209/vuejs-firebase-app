@@ -15,30 +15,31 @@
 </template>
 
 <script>
-import firebase from 'firebase';
-import RecipeShow from "./RecipeShow.vue";
-import { mapGetters } from 'vuex'
-export default {
-    data() {
+    import firebase from 'firebase';
+    import RecipeShow from "./RecipeShow.vue";
+    import { mapGetters } from 'vuex'
+    import { input } from "@/input"
+
+    export default {
+        mixins: [input],
+        data() {
             return {
-                items:[],
-                input_material: [],
-                beforeInputMaterial:"",
+                beforeInputMaterial: "",
             }
 
         },
-   computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
-         methods: {
-          
+        computed: mapGetters(["currentUID", "favoriteRecipesDB", "finalRecipe"]),
+        methods: {
+
             serchFirebase() {
-                this.items=[]
-                this.$store.dispatch("setToFinalRecipe",[])
-                this.input_material=[]
-                const vm=this;
-                 this.input_material=this.beforeInputMaterial.split("、");
-                 console.log(this.input_material);　
-                 console.log(vm.input_material);
-                 firebase.firestore().collection('recipe')
+                this.items = []
+                this.$store.dispatch("setToFinalRecipe", [])
+                this.input_material = []
+                const vm = this;
+                this.input_material = this.beforeInputMaterial.split(" ");
+                console.log(this.input_material);　
+                console.log(vm.input_material);
+                firebase.firestore().collection('recipe')
                     .where("recipeMaterial", "array-contains-any", vm.input_material)
                     .get()
                     .then((snapshot) => {
@@ -72,72 +73,48 @@ export default {
                                 return b.hitcount - a.hitcount
                             })
                             console.log(vm.items)
-                             this.$store.dispatch("setToFinalRecipe",vm.items)
+                            this.$store.dispatch("setToFinalRecipe", vm.items)
                             //おきにいりにあるものとくらべてボタンと送信を切り替え
-                            for(let i = 0; i < vm.finalRecipe.length; i++){
-                                for(let j=0; j<vm.favoriteRecipesDB.length; j++){
+                            for (let i = 0; i < vm.finalRecipe.length; i++) {
+                                for (let j = 0; j < vm.favoriteRecipesDB.length; j++) {
                                     //お気に入りと被った時
-                                    if(vm.favoriteRecipesDB[j].recipeInfo.recipeUrl===vm.finalRecipe[i].recipeUrl){
-                                    
-                                         this.$store.dispatch("changeIsfavorite",{boolean: true,index: i})
+                                    if (vm.favoriteRecipesDB[j].recipeInfo.recipeUrl === vm.finalRecipe[i].recipeUrl) {
+
+                                        this.$store.dispatch("changeIsfavorite", { boolean: true, index: i })
                                         break;
                                     }
-                                    if(j===vm.favoriteRecipesDB.length-1){
-                                    this.$store.dispatch("changeIsfavorite",{boolean: false,index: i})
+                                    if (j === vm.favoriteRecipesDB.length - 1) {
+                                        this.$store.dispatch("changeIsfavorite", { boolean: false, index: i })
                                         break;
                                     }
-                                    
-                                }//j
+
+                                } //j
                             }
-                            console.log("finalrecipe",vm.finalRecipe)
-                        }//else
+                            console.log("finalrecipe", vm.finalRecipe)
+                        } //else
                     })
-                },
+            },
 
-                getHitCount() {
-                        let count = 0
-
-            for (let i = 0; i < this.items.length; i++) {
-                for (let k = 0; k < this.items[i].recipeMaterial.length; k++) {
-
-
-                    for (let j = 0; j < this.input_material.length; j++) {
-
-                        if (this.input_material[j] === this.items[i].recipeMaterial[k]) { //ここ条件をゆるくしたい
-                            count++;
-                        }
-                    } //ここまでj
-                    if (k === this.items[i].recipeMaterial.length - 1) {
-                        this.items[i].hitcount = count;
-                        count = 0
-                    }
-                }
-            } //ここまでi
         },
-         },
-       
-    components:{
-        RecipeShow,
+
     }
- 
-}
 </script>
 
 <style scoped>
-    .title{
-        text-align:center;
-        margin-top:100px;
+    .title {
+        text-align: center;
+        margin-top: 100px;
     }
-    .type-input{
-    text-align : center ;
-    margin:30px auto;
-    width: 50%;
+
+    .type-input {
+        text-align: center;
+        margin: 30px auto;
+        width: 50%;
     }
-    
+
     .alert {
-      text-align:center;
-      width:50%;
-      margin-top:100px;
-}
-    
+        text-align: center;
+        width: 50%;
+        margin-top: 100px;
+    }
 </style>

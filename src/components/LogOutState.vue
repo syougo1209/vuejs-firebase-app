@@ -43,10 +43,6 @@ export default{
        
     },
 
-
-
-
-    
     data() {
         return {
             email: "",

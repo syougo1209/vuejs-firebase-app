@@ -19,7 +19,7 @@
 
                 <div class="col-lg-6 mt-5">
 
-                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" >
+                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toTyping">
                         <div class="no-touch">
                             <div class="pic-wrapper">
                                 <img src="../assets/Laptop 4.jpeg" class="img-fluid">
@@ -40,7 +40,7 @@
 
                 <div class="col-lg-6 mt-5">
 
-                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" >
+                    <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toVoice">
                         <div class="no-touch">
                             <div class="pic-wrapper">
                                 <img src="../assets/image_processing20190811-20624-1mhglkn.png" class="img-fluid">
@@ -88,7 +88,7 @@
                     console.log('状態：ログイン中');
                     this.$store.dispatch("changeLogInState", user.uid)
                     console.log("loginornot", vm.currentUID);
-                    //this.currentState = 'LogInState'
+                
 　                   console.log("mounted", vm.currentUID);
                     const recipes = firebase
                         .database()
