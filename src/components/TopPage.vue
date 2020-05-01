@@ -1,12 +1,15 @@
 
 <template>
       <div>
-    <div class="img_area ">
+          
+    <div class="img_area d-none d-sm-block">
         背景画像
         <div class="caption_area">
             <h1>あなたの冷蔵庫の残りから最高のレシピを提供します</h1>
         </div>
     </div>
+    
+    
 
     <div id="intro mt-3 ">
         <h1 class="search-theme mt-5">Search</h1>
@@ -320,5 +323,9 @@
 
     a:active {
         color: #ff8000;
+    }
+    .hidden-xs, .hidden-sm{
+    
+    display:none;    
     }
 </style>

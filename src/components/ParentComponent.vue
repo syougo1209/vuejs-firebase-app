@@ -25,7 +25,7 @@
               <router-link class="nav-link" to="/type">文字で入力</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/voice">音声入力</router-link>
+              <router-link class="nav-link" to="/voice">音声入力(google chromeのみ対応)</router-link>
 </li>
 
 
