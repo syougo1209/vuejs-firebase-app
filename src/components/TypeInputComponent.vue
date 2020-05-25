@@ -37,8 +37,7 @@
                 this.input_material = []
                 const vm = this;
                 this.input_material = this.beforeInputMaterial.split(" ");
-                console.log(this.input_material);　
-                console.log(vm.input_material);
+                this.beforeInputMaterial="";
                 firebase.firestore().collection('recipe')
                     .where("recipeMaterial", "array-contains-any", vm.input_material)
                     .get()

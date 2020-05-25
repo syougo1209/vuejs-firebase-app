@@ -1,4 +1,3 @@
-
 <template>
       <div>
           
@@ -16,10 +15,6 @@
 
         <div class="view container-fluid">
             <div class="row justify-content-center no-gutters">
-
-
-                
-
                 <div class="col-lg-6 mt-5">
 
                     <div class="pic_frame" @mouseover="shrinking" @mouseleave="enlarging" @click="toTyping">
@@ -62,12 +57,6 @@
 </div>
 </div>
 </div>
-
-           
-
-
-
-
     <div class="to_favorite_recipes">
         <button type="button" @click="toFavorite" class="btn btn-outline-success rounded-pill mx-auto d-block mt-5" style="width:300px;height:70px">お気に入り</button>
 </div>
@@ -100,8 +89,6 @@
                     recipes.off('child_added');
                     recipes.off("child_removed")
                     //追加されたとき
-                    
-
                     recipes.on('child_added', (recipeSnapshot) => {
                         console.log("favorite is added!")
                         console.log(recipeSnapshot)
@@ -127,17 +114,14 @@
 
                     recipes.on('child_removed', (recipeSnapshot) => {
                         console.log("削除")
-
-
                         console.log(recipeSnapshot.val().recipeUrl)
 
                         console.log(vm.finalRecipe)
                         let url = recipeSnapshot.val().recipeUrl　　　　　　　　
                         if (vm.finalRecipe.length !== 0) {
-
                             let index = vm.getIndex(url, vm.finalRecipe, "recipeUrl")
-                            this.$store.dispatch("changeIsfavorite", { boolean: false, index: index })
                             console.log("changeis favoir", vm.finalRecipe)
+                            this.$store.dispatch("setToFinalRecipe",[])
                         }
 
                         let index = vm.getIndex(recipeSnapshot.key, vm.favoriteRecipesDB, "key")
@@ -145,9 +129,6 @@
 
                         this.$store.dispatch("removeRecipe", index)
                     }) //削除
-
-
-
 
                 }
                 else {

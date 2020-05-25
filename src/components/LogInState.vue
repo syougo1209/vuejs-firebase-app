@@ -46,8 +46,7 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
            this.$store.dispatch("changeLogInState",null)  
          },
          remove(recipe){
-             console.log(recipe)
-             
+          console.log(recipe)
           console.log(this.currentUID)
           const vm=this
             firebase
@@ -59,7 +58,6 @@ computed: mapGetters(["currentUID","favoriteRecipesDB"]),
             })
             .catch(()=>{
                 console.log("fail");
-                
             })
         },
          
