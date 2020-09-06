@@ -30,7 +30,6 @@
         },
         computed: mapGetters(["currentUID", "favoriteRecipesDB", "finalRecipe"]),
         methods: {
-
             serchFirebase() {
                 this.items = []
                 this.$store.dispatch("setToFinalRecipe", [])
@@ -46,8 +45,10 @@
                             console.log("nai");
                             vm.items = [];
                             vm.input_material = [];
+                            this.$store.dispatch("setToFinalRecipe", 1);
                         }
                         else {
+                            this.$store.dispatch("setToFinalRecipe", []);
                             console.log(snapshot);
                             vm.items.push(snapshot.docs.map(doc => doc.data()));
 

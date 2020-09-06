@@ -1,10 +1,6 @@
 <template>
-     <div>
-     
-      <div v-show="finalRecipe.length>0" class="alert alert-info center-block  mx-auto" role="alert">{{finalRecipe.length}}件の新着情報があります</div>
-   
-   
-    
+ <div v-if="finalRecipe.length>0">
+      <div class="alert alert-info center-block  mx-auto" role="alert">{{finalRecipe.length}}件のレシピがあります</div>
       <div class="wi container mt-5">
       
      <div class="recipe row justify-content-start">
@@ -35,8 +31,9 @@
        </div>
        </div>
        </div>
+       <div v-else-if="finalRecipe===1">
+        <div class="alert alert-info center-block  mx-auto" role="alert">レシピが見つかりませんでした</div>
        </div>
-    
 </template>
 
 <script>
