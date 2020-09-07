@@ -35,7 +35,7 @@
                     .then((user) => {
                         // ログインに成功したときの処理
                         console.log('ログインしました', user);
-                        this.$emit("changeToLogIn")
+                        
                         this.$router.push("/user/favorite")
                     })
                     .catch((error) => {

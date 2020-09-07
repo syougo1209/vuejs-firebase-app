@@ -15,6 +15,7 @@ export default {
     },
     created(){
       if(this.currentUID===null){
+       　 console.log("reload")
           this.$router.push("/user/login") 
       }
       else{

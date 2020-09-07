@@ -69,7 +69,7 @@
 
     export default {
         computed: mapGetters(["currentUID","favoriteRecipesDB","finalRecipe"]),
-        created() {
+         created() {
             
             let vm = this
             firebase.auth().onAuthStateChanged((user) => {
@@ -138,7 +138,6 @@
 
             })
         },
-
         methods: {
 
             toVoice() {

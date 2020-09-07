@@ -29,6 +29,7 @@
 
         },
         computed: mapGetters(["currentUID", "favoriteRecipesDB", "finalRecipe"]),
+        
         methods: {
             serchFirebase() {
                 this.items = []

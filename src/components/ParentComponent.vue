@@ -64,8 +64,10 @@
             return {
                 currentComponent: "TopPage",
                 scrollY: 0,
+                createdOrNot: false,
             }
         },
+    
         computed: {
             currentUID() {
                 return this.$store.getters.currentUID
@@ -76,6 +78,9 @@
         },
         mounted() {
             window.addEventListener('scroll', this.handleScroll);
+        },
+        created(){
+                            this.$router.push("/")
         },
         methods: {
             handleScroll() {
@@ -99,9 +104,6 @@
                         // ログアウトに失敗したときの処理
                         console.error('ログアウトエラー', error);
                     });
-
-
-
             }
         },
 
