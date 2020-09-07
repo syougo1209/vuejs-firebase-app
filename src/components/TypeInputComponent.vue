@@ -1,7 +1,7 @@
 <template>
      <div>
          
-     <div class="alert alert-info center-block  mx-auto " role="alert">材料名を複数検索したい場合は半角スペースを間に入れてください。<br>材料の一致順にレシピが表示されます</div>  
+     <div class="alert alert-info center-block  mx-auto " role="alert">材料名を複数検索したい場合は半角スペースを間に入れてください.(例:　じゃがいも にんじん)<br>材料の一致順にレシピが表示されます</div>  
      
    <div class="type-input input-group mt-4">
   <input v-model="beforeInputMaterial"  type="text" class="form-control"　placeholder="材料名">
